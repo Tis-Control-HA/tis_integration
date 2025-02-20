@@ -1,19 +1,12 @@
 from __future__ import annotations
-import base64
-
-def decode__(s):
-    return base64.b64decode(s).decode()
-
-def format_str__(encoded_template, **kwargs):
-    template = base64.b64decode(encoded_template).decode()
-    return template.format(**kwargs)
-T=decode__("Y2hhbm5lbF9udW1iZXI=")
-S=decode__("Y29udHJvbF9yZXNwb25zZQ==")
+from TISControlProtocol import *
+T=alpha__("Y2hhbm5lbF9udW1iZXI=")
+S=alpha__("Y29udHJvbF9yZXNwb25zZQ==")
 O=iter
 N=next
 K=str
-I=decode__("YWRkaXRpb25hbF9ieXRlcw==")
-H=decode__("ZmVlZGJhY2tfdHlwZQ==")
+I=alpha__("YWRkaXRpb25hbF9ieXRlcw==")
+H=alpha__("ZmVlZGJhY2tfdHlwZQ==")
 F=int
 D=False
 A=property
@@ -32,26 +25,26 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from.import TISConfigEntry
 G=W()
 async def async_setup_entry(hass,entry,async_add_devices):
-    J=decode__("Z2F0ZXdheQ==");I=decode__("ZGV2aWNlX2lk");F=async_add_devices;E=decode__("Y2hhbm5lbHM=");A=entry.runtime_data.api;G=await A.get_entities(platform=decode__("bW90b3I="));H=await A.get_entities(platform=decode__("c2h1dHRlcg=="))
+    J=alpha__("Z2F0ZXdheQ==");I=alpha__("ZGV2aWNlX2lk");F=async_add_devices;E=alpha__("Y2hhbm5lbHM=");A=entry.runtime_data.api;G=await A.get_entities(platform=alpha__("bW90b3I="));H=await A.get_entities(platform=alpha__("c2h1dHRlcg=="))
     if G:B=[(B,N(O(A[E][0].values())),A[I],A[J])for A in G for(B,A)in A.items()];D=[Y(tis_api=A,cover_name=B,channel_number=C,device_id=D,gateway=E)for(B,C,D,E)in B];F(D,update_before_add=C)
     if H:B=[(B,N(O(A[E][0].values())),N(O(A[E][1].values())),A[I],A[J])for A in H for(B,A)in A.items()];D=[Z(tis_api=A,cover_name=B,up_channel_number=C,down_channel_number=D,device_id=E,gateway=F)for(B,C,D,E,F)in B];F(D,update_before_add=C)
 class Y(Q):
-    def __init__(A,tis_api,gateway,cover_name,channel_number,device_id):A.api=tis_api;A.gateway=gateway;A.device_id=device_id;A.channel_number=F(channel_number);A._attr_name=cover_name;A._attr_is_closed=B;A._attr_current_cover_position=B;A._attr_device_class=P.SHUTTER;A._attr_unique_id=format_str__("e19fdmFyMH1fe19fdmFyMX0=", __var0=A._attr_name, __var1=A.channel_number);A.listener=B;A.update_packet=G.generate_control_update_packet(A);A.generate_cover_packet=G.generate_light_control_packet
+    def __init__(A,tis_api,gateway,cover_name,channel_number,device_id):A.api=tis_api;A.gateway=gateway;A.device_id=device_id;A.channel_number=F(channel_number);A._attr_name=cover_name;A._attr_is_closed=B;A._attr_current_cover_position=B;A._attr_device_class=P.SHUTTER;A._attr_unique_id=beta__("e19fdmFyMH1fe19fdmFyMX0=", __var0=A._attr_name, __var1=A.channel_number);A.listener=B;A.update_packet=G.generate_control_update_packet(A);A.generate_cover_packet=G.generate_light_control_packet
     async def async_added_to_hass(A):
         @R
         async def D(event):
             D=event
             if D.event_type==K(A.device_id):
                 if D.data[H]==S:
-                    U.info(format_str__("Y2hhbm5lbCBudW1iZXIgZm9yIGNvdmVyOiB7X192YXIwfQ==", __var0=A.channel_number));G=D.data[I][2];J=D.data[T]
+                    U.info(beta__("Y2hhbm5lbCBudW1iZXIgZm9yIGNvdmVyOiB7X192YXIwfQ==", __var0=A.channel_number));G=D.data[I][2];J=D.data[T]
                     if F(J)==A.channel_number:A._attr_is_closed=G==0;A._attr_current_cover_position=G
                     A.async_write_ha_state()
-                elif D.data[H]==decode__("YmluYXJ5X2ZlZWRiYWNr"):
-                    L=ceil(D.data[I][0]/8);N=decode__("").join(V(D.data[I][A])for A in range(1,L+1))
-                    if N[A.channel_number-1]==decode__("MA=="):A._attr_is_closed=C
+                elif D.data[H]==alpha__("YmluYXJ5X2ZlZWRiYWNr"):
+                    L=ceil(D.data[I][0]/8);N=alpha__("").join(V(D.data[I][A])for A in range(1,L+1))
+                    if N[A.channel_number-1]==alpha__("MA=="):A._attr_is_closed=C
                     A.async_write_ha_state()
-                elif D.data[H]==decode__("dXBkYXRlX3Jlc3BvbnNl"):O=D.data[I];A._attr_current_cover_position=O[A.channel_number];A._attr_is_closed=A._attr_current_cover_position==0;A._attr_state=M if A._attr_is_closed else E
-                elif D.data[H]==decode__("b2ZmbGluZV9kZXZpY2U="):A._attr_state=X;A._attr_is_closed=B;A._attr_current_cover_position=B
+                elif D.data[H]==alpha__("dXBkYXRlX3Jlc3BvbnNl"):O=D.data[I];A._attr_current_cover_position=O[A.channel_number];A._attr_is_closed=A._attr_current_cover_position==0;A._attr_state=M if A._attr_is_closed else E
+                elif D.data[H]==alpha__("b2ZmbGluZV9kZXZpY2U="):A._attr_state=X;A._attr_is_closed=B;A._attr_current_cover_position=B
             await A.async_update_ha_state(C)
         A.listener=A.hass.bus.async_listen(K(A.device_id),D);G=await A.api.protocol.sender.send_packet(A.update_packet)
     @A
@@ -78,7 +71,7 @@ class Y(Q):
         if E:A._attr_is_closed=C[L]==0;A._attr_current_cover_position=C[L]
         else:A._attr_is_closed=B;A._attr_current_cover_position=B
 class Z(Q):
-    def __init__(A,tis_api,gateway,cover_name,up_channel_number,down_channel_number,device_id):A.api=tis_api;A.gateway=gateway;A.device_id=device_id;A.up_channel_number=F(up_channel_number);A.down_channel_number=F(down_channel_number);A._attr_name=cover_name;A._attr_unique_id=format_str__("e19fdmFyMH1fe19fdmFyMX1fe19fdmFyMn0=", __var0=A._attr_name, __var1=A.up_channel_number, __var2=A.down_channel_number);A.channel_number=A.up_channel_number;A._attr_is_closed=B;A._attr_device_class=P.WINDOW;A.last_status=E;A.listener=B
+    def __init__(A,tis_api,gateway,cover_name,up_channel_number,down_channel_number,device_id):A.api=tis_api;A.gateway=gateway;A.device_id=device_id;A.up_channel_number=F(up_channel_number);A.down_channel_number=F(down_channel_number);A._attr_name=cover_name;A._attr_unique_id=beta__("e19fdmFyMH1fe19fdmFyMX1fe19fdmFyMn0=", __var0=A._attr_name, __var1=A.up_channel_number, __var2=A.down_channel_number);A.channel_number=A.up_channel_number;A._attr_is_closed=B;A._attr_device_class=P.WINDOW;A.last_status=E;A.listener=B
     async def async_added_to_hass(A):
         @R
         async def B(event):
@@ -102,17 +95,17 @@ class Z(Q):
     @A
     def unique_id(self):return self._attr_unique_id
     async def async_open_cover(A,**H):
-        C,I=G.generate_no_pos_cover_packet(A,decode__("b3Blbg=="));F=await A.api.protocol.sender.send_packet_with_ack(C)
+        C,I=G.generate_no_pos_cover_packet(A,alpha__("b3Blbg=="));F=await A.api.protocol.sender.send_packet_with_ack(C)
         if F:A._attr_is_closed=D;A.last_status=E
         else:A._attr_is_closed=B
         A.async_write_ha_state()
     async def async_close_cover(A,**F):
-        H,D=G.generate_no_pos_cover_packet(A,decode__("Y2xvc2U="));E=await A.api.protocol.sender.send_packet_with_ack(D)
+        H,D=G.generate_no_pos_cover_packet(A,alpha__("Y2xvc2U="));E=await A.api.protocol.sender.send_packet_with_ack(D)
         if E:A._attr_is_closed=C;A.last_status=M
         else:A._attr_is_closed=B
         A.async_write_ha_state()
     async def async_stop_cover(A,**J):
-        H,I=G.generate_no_pos_cover_packet(A,decode__("c3RvcA=="))
+        H,I=G.generate_no_pos_cover_packet(A,alpha__("c3RvcA=="))
         if A._attr_is_closed:
             F=await A.api.protocol.sender.send_packet_with_ack(I)
             if F:A._attr_state=A.last_status;A._attr_is_closed=D if A.last_status==E else C

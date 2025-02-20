@@ -1,12 +1,5 @@
 from __future__ import annotations
-import base64
-
-def decode__(s):
-    return base64.b64decode(s).decode()
-
-def format_str__(encoded_template, **kwargs):
-    template = base64.b64decode(encoded_template).decode()
-    return template.format(**kwargs)
+from TISControlProtocol import *
 A=property
 from homeassistant.core import callback as B
 from homeassistant.helpers.update_coordinator import CoordinatorEntity as C,DataUpdateCoordinator

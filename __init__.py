@@ -1,37 +1,30 @@
 from __future__ import annotations
-import base64
-
-def decode__(s):
-    return base64.b64decode(s).decode()
-
-def format_str__(encoded_template, **kwargs):
-    template = base64.b64decode(encoded_template).decode()
-    return template.format(**kwargs)
-I=False
-import logging as D,os as C
-from attr import dataclass as B
-from TISControlProtocol.api import TISApi as G,GetKeyEndpoint as K,ScanDevicesEndPoint as L,TISEndPoint as M
-from TISControlProtocol.Protocols.udp.ProtocolHandler import TISProtocolHandler as E
-from homeassistant.config_entries import ConfigEntry as F
-from homeassistant.const import Platform as A
+from TISControlProtocol import *
+import logging,os
+from attr import dataclass
+from TISControlProtocol.api import*
+from TISControlProtocol.Protocols.udp.ProtocolHandler import TISProtocolHandler
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from.const import DEVICES_DICT,DOMAIN
-@B
-class H:api:G
-PLATFORMS=[A.LIGHT,A.SENSOR,A.BINARY_SENSOR,A.SWITCH,A.COVER,A.CLIMATE,A.SELECT,A.LOCK,A.FAN]
-type TISConfigEntry=F[H]
-J=E()
+from TISControlProtocol.Protocols import setup_udp_protocol
+from TISControlProtocol.Protocols.udp.ProtocolHandler import TISProtocolHandler,TISPacket
+@dataclass
+class TISData:api:TISApi
+PLATFORMS=[Platform.LIGHT,Platform.SENSOR,Platform.BINARY_SENSOR,Platform.SWITCH,Platform.COVER,Platform.CLIMATE,Platform.SELECT,Platform.LOCK,Platform.FAN]
+type TISConfigEntry=ConfigEntry[TISData]
+protocol_handler=TISProtocolHandler()
 async def async_setup_entry(hass,entry):
-    E=entry;A=hass
     try:
-        N=C.getcwd();C.chdir(decode__("L2NvbmZpZy9jdXN0b21fY29tcG9uZW50cy90aXNfaW50ZWdyYXRpb24="));O=C.system(decode__("Z2l0IHJlc2V0IC0taGFyZCBIRUFE"));J=C.system(decode__("Z2l0IHB1bGw="));C.chdir(N)
-        if J==0 and O==0:D.warning(format_str__("VXBkYXRlZCBUSVMgSW50ZWdyYXRpb25z", ))
-        else:D.warning(format_str__("Q291bGQgTm90IFVwZGF0ZSBUSVMgSW50ZWdyYXRpb246IGV4aXQgZXJyb3Ige19fdmFyMH0=", __var0=J))
-    except Exception as F:D.error(format_str__("Q291bGQgTm90IFVwZGF0ZSBUSVMgSW50ZWdyYXRpb246IHtfX3ZhcjB9", __var0=F))
-    B=G(port=int(E.data[decode__("cG9ydA==")]),hass=A,domain=DOMAIN,devices_dict=DEVICES_DICT,display_logo=decode__("Li9jdXN0b21fY29tcG9uZW50cy90aXNfaW50ZWdyYXRpb24vaW1hZ2VzL2xvZ28ucG5n"));E.runtime_data=H(api=B);A.data.setdefault(DOMAIN,{decode__("c3VwcG9ydGVkX3BsYXRmb3Jtcw=="):PLATFORMS})
-    try:await B.connect();A.http.register_view(M(B));A.http.register_view(L(B));A.http.register_view(K(B));A.async_add_executor_job(B.run_display)
-    except ConnectionError as F:D.error(decode__("ZXJyb3IgY29ubmVjdGluZyB0byBUSVMgYXBpICVz"),F);return I
-    await A.config_entries.async_forward_entry_setups(E,PLATFORMS);return True
+        current_directory=os.getcwd();os.chdir(alpha__("L2NvbmZpZy9jdXN0b21fY29tcG9uZW50cy90aXNfaW50ZWdyYXRpb24="));reset=os.system(alpha__("Z2l0IHJlc2V0IC0taGFyZCBIRUFE"));pull=os.system(alpha__("Z2l0IHB1bGw="));os.chdir(current_directory)
+        if pull==0 and reset==0:logging.warning(beta__("VXBkYXRlZCBUSVMgSW50ZWdyYXRpb25z", ))
+        else:logging.warning(beta__("Q291bGQgTm90IFVwZGF0ZSBUSVMgSW50ZWdyYXRpb246IGV4aXQgZXJyb3Ige19fdmFyMH0=", __var0=pull))
+    except Exception as e:logging.error(beta__("Q291bGQgTm90IFVwZGF0ZSBUSVMgSW50ZWdyYXRpb246IHtfX3ZhcjB9", __var0=e))
+    tis_api=TISApi(port=int(entry.data[alpha__("cG9ydA==")]),hass=hass,domain=DOMAIN,devices_dict=DEVICES_DICT,display_logo=alpha__("Li9jdXN0b21fY29tcG9uZW50cy90aXNfaW50ZWdyYXRpb24vaW1hZ2VzL2xvZ28ucG5n"));entry.runtime_data=TISData(api=tis_api);hass.data.setdefault(DOMAIN,{alpha__("c3VwcG9ydGVkX3BsYXRmb3Jtcw=="):PLATFORMS})
+    try:await tis_api.connect();hass.http.register_view(TISEndPoint(tis_api));hass.http.register_view(ScanDevicesEndPoint(tis_api));hass.http.register_view(GetKeyEndpoint(tis_api));hass.async_add_executor_job(tis_api.run_display)
+    except ConnectionError as e:logging.error(alpha__("ZXJyb3IgY29ubmVjdGluZyB0byBUSVMgYXBpICVz"),e);return False
+    await hass.config_entries.async_forward_entry_setups(entry,PLATFORMS);return True
 async def async_unload_entry(hass,entry):
-    if(A:=await hass.config_entries.async_unload_platforms(entry,PLATFORMS)):return A
-    return I
+    if(unload_ok:=await hass.config_entries.async_unload_platforms(entry,PLATFORMS)):return unload_ok
+    return False
