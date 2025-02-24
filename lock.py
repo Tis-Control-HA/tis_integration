@@ -1,40 +1,37 @@
 from __future__ import annotations
 from TISControlProtocol import *
-K=alpha__("bG9ja2Vk")
-J=alpha__("YWRtaW5fbG9jaw==")
-A=property
-H=alpha__("SW52YWxpZCBwYXNzd29yZA==")
-G=alpha__("dXNlcg==")
-F=None
-E=ValueError
-D=True
-C=alpha__("Y29kZQ==")
-B=False
-from homeassistant.components.lock import LockEntity as L
+_G=alpha__("bG9ja2Vk")
+_F=alpha__("YWRtaW5fbG9jaw==")
+_E=alpha__("SW52YWxpZCBwYXNzd29yZA==")
+_D=alpha__("dXNlcg==")
+_C=True
+_B=alpha__("Y29kZQ==")
+_A=False
+from homeassistant.components.lock import LockEntity
 from homeassistant.core import HomeAssistant
 from.const import DOMAIN
 from TISControlProtocol.api import TISApi
-import asyncio as I,logging as M
+import asyncio,logging
 async def async_setup_entry(hass,entry,async_add_devices):
-    B=entry.runtime_data.api;A=B.config_entries.get(alpha__("bG9ja19tb2R1bGU="),F)
-    if A is F:M.error(alpha__("Tm8gbG9jayBtb2R1bGUgZm91bmQgaW4gdGhlIGNvbmZpZ3VyYXRpb24="));return
-    else:async_add_devices([N(alpha__("QWRtaW4gTG9jaw=="),A[alpha__("cGFzc3dvcmQ=")])])
-class N(L):
-    def __init__(A,name,password):A._attr_name=name;A.unique_id=beta__("bG9ja197X192YXIwfQ==", __var0=A.name);A._attr_is_locked=D;A._attr_password=password;A._attr_changed_by=F;A._attr_code_format=alpha__("Lio=");A._attr_is_locking=B;A._attr_is_unlocking=B;A._attr_is_opening=B;A._attr_is_open=B;A._attr_timeout=60
-    @A
+    B=entry.runtime_data.api;A=B.config_entries.get(alpha__("bG9ja19tb2R1bGU="),None)
+    if A is None:logging.error(alpha__("Tm8gbG9jayBtb2R1bGUgZm91bmQgaW4gdGhlIGNvbmZpZ3VyYXRpb24="));return
+    else:async_add_devices([TISControlLock(alpha__("QWRtaW4gTG9jaw=="),A[alpha__("cGFzc3dvcmQ=")])])
+class TISControlLock(LockEntity):
+    def __init__(A,name,password):A._attr_name=name;A.unique_id=beta__("bG9ja197X192YXIwfQ==", __var0=A.name);A._attr_is_locked=_C;A._attr_password=password;A._attr_changed_by=None;A._attr_code_format=alpha__("Lio=");A._attr_is_locking=_A;A._attr_is_unlocking=_A;A._attr_is_opening=_A;A._attr_is_open=_A;A._attr_timeout=60
+    @property
     def name(self):return self._attr_name
-    @A
+    @property
     def is_locked(self):return self._attr_is_locked
     async def async_lock(A,**B):
-        if C in B and B[C]==A._attr_password:A._attr_is_locked=D;A._attr_changed_by=G;A.hass.bus.async_fire(str(J),{K:D})
-        else:raise E(H)
-    async def async_unlock(A,**D):
-        if C in D and D[C]==A._attr_password:
-            A._attr_is_locked=B;A._attr_changed_by=G;A.hass.bus.async_fire(str(J),{K:B})
+        if _B in B and B[_B]==A._attr_password:A._attr_is_locked=_C;A._attr_changed_by=_D;A.hass.bus.async_fire(str(_F),{_G:_C})
+        else:raise ValueError(_E)
+    async def async_unlock(A,**B):
+        if _B in B and B[_B]==A._attr_password:
+            A._attr_is_locked=_A;A._attr_changed_by=_D;A.hass.bus.async_fire(str(_F),{_G:_A})
             if hasattr(A,alpha__("X2F1dG9fbG9ja190YXNr"))and A._auto_lock_task:A._auto_lock_task.cancel()
-            A._auto_lock_task=I.create_task(A.auto_lock())
-        else:raise E(H)
-    async def auto_lock(A):await I.sleep(A._attr_timeout);await A.async_lock(code=A._attr_password)
+            A._auto_lock_task=asyncio.create_task(A.auto_lock())
+        else:raise ValueError(_E)
+    async def auto_lock(A):await asyncio.sleep(A._attr_timeout);await A.async_lock(code=A._attr_password)
     async def async_open(A,**B):
-        if C in B and B[C]==A._attr_password:A._attr_is_open=D;A._attr_changed_by=G
-        else:raise E(H)
+        if _B in B and B[_B]==A._attr_password:A._attr_is_open=_C;A._attr_changed_by=_D
+        else:raise ValueError(_E)
