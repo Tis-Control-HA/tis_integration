@@ -26,7 +26,7 @@ class K(H):
         except RuntimeError:E.error(alpha__("R1BJTyBQV00gYWxyZWFkeSBpbiB1c2U="));B._pwm=C;B._attr_available=F
     async def async_added_to_hass(A):
         @I
-        async def B(event):
+        async def handle_overheat_event(event):
             try:
                 B=event.data.get(alpha__("dGVtcGVyYXR1cmU="))
                 if B is C:return
@@ -34,7 +34,7 @@ class K(H):
                 elif B>A._lower_temperature_threshold:await A.async_turn_on(percentage=50)
                 else:await A.async_turn_on(percentage=25)
             except G as D:E.error(beta__("RXJyb3IgYWRqdXN0aW5nIGZhbiBzcGVlZDoge19fdmFyMH0=", __var0=D))
-        A._listener=A.hass.bus.async_listen(alpha__("Y3B1X3RlbXBlcmF0dXJl"),B)
+        A._listener=A.hass.bus.async_listen(alpha__("Y3B1X3RlbXBlcmF0dXJl"),handle_overheat_event)
     @B
     def name(self):return self._attr_name
     @B

@@ -41,7 +41,7 @@ class f(P):
     def setup_light(A):A._attr_supported_color_modes={I.BRIGHTNESS};A._attr_color_mode=I.BRIGHTNESS;A._attr_supported_features=Y.TRANSITION;A.generate_light_packet=J.generate_light_control_packet;A.update_packet=J.generate_control_update_packet(A)
     async def async_added_to_hass(A):
         @Q
-        async def C(event):
+        async def handle_event(event):
             C=event
             if C.event_type==K(A.device_id):
                 if C.data[E]==T:
@@ -54,7 +54,7 @@ class f(P):
                     A.async_write_ha_state()
                 elif C.data[E]==U:N=C.data[H];A._attr_brightness=B(N[A.channel_number]/100*255);A._attr_state=e if A._attr_brightness>0 else d
                 elif C.data[E]==V:A._attr_state=L
-        A.listener=A.hass.bus.async_listen(K(A.device_id),C);F=await A.api.protocol.sender.send_packet(A.update_packet)
+        A.listener=A.hass.bus.async_listen(K(A.device_id),handle_event);C=await A.api.protocol.sender.send_packet(A.update_packet)
     @A
     def brightness(self):return self._attr_brightness
     @A
@@ -84,7 +84,7 @@ class g(P):
     def setup_light(A):A._attr_supported_color_modes={I.RGB};A._attr_color_mode=I.RGB;A.generate_rgb_packets=J.generate_rgb_light_control_packet;A.update_packet=J.generate_control_update_packet(A)
     async def async_added_to_hass(A):
         @Q
-        async def D(event):
+        async def handle_event(event):
             F=event
             if F.event_type==K(A.device_id):
                 if F.data[E]==T:
@@ -101,9 +101,9 @@ class g(P):
                     elif D==A.b_channel:A._attr_rgb_color[2]=B(I[D]/100*255)
                     A._attr_state=bool(A.r_channel or A.g_channel or A.b_channel)
                 elif F.data[E]==V:A._attr_state=L
-        A.listener=A.hass.bus.async_listen(K(A.device_id),D)
-        for F in R(5):
-            if A._attr_rgb_color is C:G=await A.api.protocol.sender.send_packet(A.update_packet)
+        A.listener=A.hass.bus.async_listen(K(A.device_id),handle_event)
+        for D in R(5):
+            if A._attr_rgb_color is C:F=await A.api.protocol.sender.send_packet(A.update_packet)
         if A._attr_rgb_color is C:A._attr_state=L;A._attr_rgb_color=0,0,0
     @A
     def color_mode(self):return self._attr_color_mode
@@ -133,7 +133,7 @@ class h(P):
     def setup_light(A):A._attr_supported_color_modes={I.RGBW};A._attr_color_mode=I.RGBW;A._attr_supported_features=Y.TRANSITION;A.generate_rgbw_packets=J.generate_rgbw_light_control_packet;A.update_packet=J.generate_control_update_packet(A)
     async def async_added_to_hass(A):
         @Q
-        async def D(event):
+        async def handle_event(event):
             C=event
             if C.event_type==K(A.device_id):
                 if C.data[E]==T:
@@ -145,9 +145,9 @@ class h(P):
                     if A.rgbw_value_flags==[1,1,1,1]:A.async_write_ha_state()
                 elif C.data[E]==U:G=C.data[H];I=G[A.r_channel]/100*255;J=G[A.g_channel]/100*255;M=G[A.b_channel]/100*255;N=G[A.w_channel]/100*255;A._attr_rgbw_color=I,J,M,N;A._attr_state=bool(I or J or M or N)
                 elif C.data[E]==V:A._attr_state=L
-        A.listener=A.hass.bus.async_listen(K(A.device_id),D)
-        for F in R(5):
-            if A._attr_rgbw_color is C:G=await A.api.protocol.sender.send_packet(A.update_packet)
+        A.listener=A.hass.bus.async_listen(K(A.device_id),handle_event)
+        for D in R(5):
+            if A._attr_rgbw_color is C:F=await A.api.protocol.sender.send_packet(A.update_packet)
         if A._attr_rgbw_color is C:A._attr_state=L;A._attr_rgbw_color=0,0,0,0
     @A
     def brightness(self):return self._attr_brightness

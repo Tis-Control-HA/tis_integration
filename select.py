@@ -27,7 +27,7 @@ class S(M):
     def __init__(A,api,name,options,initial_option,channel_number,device_id,gateway):A._name=name;A.api=api;A.unique_id=beta__("c2VsZWN0X3tfX3ZhcjB9", __var0=A.name);A._attr_options=options;A._attr_current_option=A._state=initial_option;A._attr_icon=alpha__("bWRpOnNoaWVsZA==");A._attr_is_protected=F;A._attr_read_only=F;A._listener=D;A.channel_number=int(channel_number);A.device_id=device_id;A.gateway=gateway;A.update_packet=R.generate_update_security_packet(A)
     async def async_added_to_hass(A):
         @P
-        async def C(event):
+        async def handle_event(event):
             G=alpha__("ZmVlZGJhY2tfdHlwZQ==");C=event
             if C.event_type==alpha__("YWRtaW5fbG9jaw=="):
                 B.info(beta__("YWRtaW4gbG9jayBldmVudDoge19fdmFyMH0=", __var0=C.data))
@@ -39,7 +39,7 @@ class S(M):
                     D=C.data[alpha__("bW9kZQ==")]
                     if D in E:F=E[D];B.info(beta__("bW9kZToge19fdmFyMH0sIG9wdGlvbjoge19fdmFyMX0=", __var0=D, __var1=F));A._state=A._attr_current_option=F
             A.async_write_ha_state()
-        A._listener=A.hass.bus.async_listen(N,C);await A.api.protocol.sender.send_packet(A.update_packet);B.info(beta__("dXBkYXRlIHBhY2tldCBzZW50OiB7X192YXIwfQ==", __var0=A.update_packet));B.info(beta__("bGlzdGVuZXIgYWRkZWQ6IHtfX3ZhcjB9", __var0=A._listener))
+        A._listener=A.hass.bus.async_listen(N,handle_event);await A.api.protocol.sender.send_packet(A.update_packet);B.info(beta__("dXBkYXRlIHBhY2tldCBzZW50OiB7X192YXIwfQ==", __var0=A.update_packet));B.info(beta__("bGlzdGVuZXIgYWRkZWQ6IHtfX3ZhcjB9", __var0=A._listener))
     @A
     def name(self):return self._name
     @A

@@ -17,7 +17,7 @@ class I(D):
     def __init__(A,tis_api,sensor_name,channel_number,device_id,gateway):A._api=tis_api;A._name=sensor_name;A._device_id=device_id;A._channel_number=C(channel_number);A._listener=B;A._attr_state=B;A._attr_is_on=B;A._attr_device_class=alpha__("bW90aW9u"),;A._gateway=gateway;A._attr_unique_id=beta__("e19fdmFyMH1fe19fdmFyMX0=", __var0=A._name, __var1=A._channel_number)
     async def async_added_to_hass(A):
         @H
-        async def B(event):
+        async def handle_event(event):
             H=False;G=alpha__("ZmVlZGJhY2tfdHlwZQ==");D=True;B=event
             if B.event_type==str(A._device_id):
                 if B.data[G]==alpha__("YXV0b19iaW5hcnlfZmVlZGJhY2s="):
@@ -30,7 +30,7 @@ class I(D):
                         if J==100:A._attr_is_on=D;A._attr_state=F
                         else:A._attr_is_on=H;A._attr_state=E
             await A.async_update_ha_state(D)
-        A._listener=A.hass.bus.async_listen(G,B)
+        A._listener=A.hass.bus.async_listen(G,handle_event)
     async def async_will_remove_from_hass(A):A._listener();A._listener=B
     @A
     def name(self):return self._name

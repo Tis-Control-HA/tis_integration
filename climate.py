@@ -36,7 +36,7 @@ class f(T):
     def setup_ac(A):A._attr_hvac_mode=B.COOL;A._attr_fan_mode=S;A._attr_max_temp=TEMPERATURE_RANGES[A._attr_hvac_mode][L][A._unit_index];A._attr_min_temp=TEMPERATURE_RANGES[A._attr_hvac_mode][M][A._unit_index];A._attr_target_temperature=TEMPERATURE_RANGES[A._attr_hvac_mode][V][A._unit_index];A._attr_target_temperature_step=1 if A._unit_index==0 else 2;A._attr_hvac_modes=[B.OFF,B.HEAT,B.COOL,B.AUTO,B.FAN_ONLY];A._attr_supported_features=F.FAN_MODE|F.TARGET_TEMPERATURE|F.TURN_OFF|F.TURN_ON;A._attr_fan_modes=[c,e,S,d];A.mode_target_temperatures={B.COOL:20,B.HEAT:30,B.FAN_ONLY:C,B.AUTO:20,B.OFF:C}
     async def async_added_to_hass(A):
         @U
-        async def E(event):
+        async def handle_event(event):
             Q=alpha__("cGFja2V0X21vZGVfaW5kZXg=");F=event
             if F.event_type==N(A.device_id):
                 P=F.data.get(W,C)
@@ -64,7 +64,7 @@ class f(T):
                             elif A._attr_hvac_mode==B.AUTO:A._attr_target_temperature=F.data[alpha__("YXV0b190ZW1w")]
                             else:A._attr_target_temperature=C
             A.async_write_ha_state();await A.async_update_ha_state(O)
-        A.listener=A.hass.bus.async_listen(N(A.device_id),E);await A.api.protocol.sender.send_packet(A.update_packet)
+        A.listener=A.hass.bus.async_listen(N(A.device_id),handle_event);await A.api.protocol.sender.send_packet(A.update_packet)
     @A
     def name(self):return self._name
     @A
@@ -109,7 +109,7 @@ class g(T):
     def setup_heater(A):A._attr_hvac_mode=B.HEAT;A._attr_max_temp=TEMPERATURE_RANGES[A._attr_hvac_mode][L][A._unit_index];A._attr_min_temp=TEMPERATURE_RANGES[A._attr_hvac_mode][M][A._unit_index];A._attr_target_temperature=TEMPERATURE_RANGES[A._attr_hvac_mode][V][A._unit_index];A._attr_target_temperature_step=1 if A._unit_index==0 else 2;A._attr_hvac_modes=[B.OFF,B.HEAT];A._attr_supported_features=F.TARGET_TEMPERATURE|F.TURN_OFF|F.TURN_ON;A.mode_target_temperatures={B.HEAT:30,B.OFF:C}
     async def async_added_to_hass(A):
         @U
-        async def E(event):
+        async def handle_event(event):
             E=event
             if E.event_type==N(A.device_id):
                 J=E.data.get(W,C)
@@ -130,7 +130,7 @@ class g(T):
                             if A._attr_hvac_mode==B.HEAT:A._attr_target_temperature=E.data[alpha__("dGVtcA==")]
                             else:A._attr_target_temperature=C
             A.async_write_ha_state();await A.async_update_ha_state(O)
-        A.listener=A.hass.bus.async_listen(N(A.device_id),E);await A.api.protocol.sender.send_packet(A.update_packet)
+        A.listener=A.hass.bus.async_listen(N(A.device_id),handle_event);await A.api.protocol.sender.send_packet(A.update_packet)
     @A
     def name(self):return self._name
     @A

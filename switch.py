@@ -34,7 +34,7 @@ class W(S):
     def __init__(A,tis_api,switch_name,channel_number,device_id,gateway):B=switch_name;A.api=tis_api;A._name=B;A._attr_unique_id=beta__("c3dpdGNoX3tfX3ZhcjB9", __var0=A.name);A._state=G;A._attr_is_on=N;A.name=B;A.device_id=device_id;A.gateway=gateway;A.channel_number=F(channel_number);A.listener=N;A.on_packet=J.generate_control_on_packet(A);A.off_packet=J.generate_control_off_packet(A);A.update_packet=J.generate_control_update_packet(A)
     async def async_added_to_hass(A):
         @V
-        async def J(event):
+        async def handle_event(event):
             H=alpha__("YWRkaXRpb25hbF9ieXRlcw==");B=event
             if B.event_type==K(A.device_id):
                 if B.data[C]==alpha__("Y29udHJvbF9yZXNwb25zZQ=="):
@@ -45,8 +45,8 @@ class W(S):
                 elif B.data[C]==O:
                     if F(B.data[I])==A.channel_number:A._state=G
             await A.async_update_ha_state(M)
-        try:A.listener=A.hass.bus.async_listen(T,J);N=await A.api.protocol.sender.send_packet(A.update_packet)
-        except H as L:B.error(beta__("ZXJyb3IgaW4gYXN5bmNfYWRkZWRfdG9faGFzcyBmdW4gZToge19fdmFyMH0=", __var0=L))
+        try:A.listener=A.hass.bus.async_listen(T,handle_event);L=await A.api.protocol.sender.send_packet(A.update_packet)
+        except H as J:B.error(beta__("ZXJyb3IgaW4gYXN5bmNfYWRkZWRfdG9faGFzcyBmdW4gZToge19fdmFyMH0=", __var0=J))
     async def async_will_remove_from_hass(A):A.listener=N
     async def async_turn_on(A,**M):
         try:

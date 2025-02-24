@@ -32,7 +32,7 @@ class Y(Q):
     def __init__(A,tis_api,gateway,cover_name,channel_number,device_id):A.api=tis_api;A.gateway=gateway;A.device_id=device_id;A.channel_number=F(channel_number);A._attr_name=cover_name;A._attr_is_closed=B;A._attr_current_cover_position=B;A._attr_device_class=P.SHUTTER;A._attr_unique_id=beta__("e19fdmFyMH1fe19fdmFyMX0=", __var0=A._attr_name, __var1=A.channel_number);A.listener=B;A.update_packet=G.generate_control_update_packet(A);A.generate_cover_packet=G.generate_light_control_packet
     async def async_added_to_hass(A):
         @R
-        async def D(event):
+        async def handle_event(event):
             D=event
             if D.event_type==K(A.device_id):
                 if D.data[H]==S:
@@ -46,7 +46,7 @@ class Y(Q):
                 elif D.data[H]==alpha__("dXBkYXRlX3Jlc3BvbnNl"):O=D.data[I];A._attr_current_cover_position=O[A.channel_number];A._attr_is_closed=A._attr_current_cover_position==0;A._attr_state=M if A._attr_is_closed else E
                 elif D.data[H]==alpha__("b2ZmbGluZV9kZXZpY2U="):A._attr_state=X;A._attr_is_closed=B;A._attr_current_cover_position=B
             await A.async_update_ha_state(C)
-        A.listener=A.hass.bus.async_listen(K(A.device_id),D);G=await A.api.protocol.sender.send_packet(A.update_packet)
+        A.listener=A.hass.bus.async_listen(K(A.device_id),handle_event);D=await A.api.protocol.sender.send_packet(A.update_packet)
     @A
     def name(self):return self._attr_name
     @A
@@ -74,7 +74,7 @@ class Z(Q):
     def __init__(A,tis_api,gateway,cover_name,up_channel_number,down_channel_number,device_id):A.api=tis_api;A.gateway=gateway;A.device_id=device_id;A.up_channel_number=F(up_channel_number);A.down_channel_number=F(down_channel_number);A._attr_name=cover_name;A._attr_unique_id=beta__("e19fdmFyMH1fe19fdmFyMX1fe19fdmFyMn0=", __var0=A._attr_name, __var1=A.up_channel_number, __var2=A.down_channel_number);A.channel_number=A.up_channel_number;A._attr_is_closed=B;A._attr_device_class=P.WINDOW;A.last_status=E;A.listener=B
     async def async_added_to_hass(A):
         @R
-        async def B(event):
+        async def handle_event(event):
             B=event
             if B.event_type==K(A.device_id):
                 if B.data[H]==S:
@@ -85,7 +85,7 @@ class Z(Q):
                         if G!=0:A._attr_is_closed=C;A.last_status=M
                     else:A._attr_is_closed=D if A.last_status==E else C
             await A.async_update_ha_state(C);A.schedule_update_ha_state()
-        A.listener=A.hass.bus.async_listen(K(A.device_id),B)
+        A.listener=A.hass.bus.async_listen(K(A.device_id),handle_event)
     @A
     def name(self):return self._attr_name
     @A
