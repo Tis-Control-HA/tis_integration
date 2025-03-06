@@ -80,10 +80,10 @@ class TISRGBLight(LightEntity):
             if C.event_type==str(A.device_id):
                 if C.data[_B]==_F:
                     D=C.data[_C][2];B=C.data[_E]
-                    if int(B)==A.r_channel:A._attr_rgb_color=int(D/100*255),A._attr_rgb_color[1],A._attr_rgb_color[2];A.rgb_values_flag[0]=1
-                    elif int(B)==A.g_channel:A._attr_rgb_color=A._attr_rgb_color[0],int(D/100*255),A._attr_rgb_color[2];A.rgb_values_flag[1]=1
-                    elif int(B)==A.b_channel:A._attr_rgb_color=A._attr_rgb_color[0],A._attr_rgb_color[1],int(D/100*255);A.rgb_values_flag[2]=1
-                    if A.rgb_values_flag==[1,1,1]:A.rgb_values_flag=[0,0,0];A.async_write_ha_state()
+                    if int(B)==A.r_channel:A._attr_rgb_color=int(D/100*255),A._attr_rgb_color[1],A._attr_rgb_color[2];A.rgb_value_flags[0]=1
+                    elif int(B)==A.g_channel:A._attr_rgb_color=A._attr_rgb_color[0],int(D/100*255),A._attr_rgb_color[2];A.rgb_value_flags[1]=1
+                    elif int(B)==A.b_channel:A._attr_rgb_color=A._attr_rgb_color[0],A._attr_rgb_color[1],int(D/100*255);A.rgb_value_flags[2]=1
+                    if A.rgb_value_flags==[1,1,1]:A.rgb_value_flags=[0,0,0];A.async_write_ha_state()
                 elif C.data[_B]==_G:
                     E=C.data[_C];B=C.data[_E]
                     if A._attr_rgb_color is _A:A._attr_rgb_color=[0,0,0]
