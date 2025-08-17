@@ -105,3 +105,13 @@ ENERGY_SENSOR_TYPES = {
     "total_pa": "Total Phase Angle",
     "frq": "Frequency",
 }
+
+HEALTH_SENSOR_TYPES = {
+    "noise": "Noise Sensor",
+    "eco2": "ECO2 Sensor",
+    "tvoc": "TVOC Sensor",
+    "humidity": "Humidity Sensor",
+    "co": "CO Sensor",
+    "lux": "Lux Sensor",
+    "temp": "Temperature Sensor",
+}

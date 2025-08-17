@@ -103,35 +103,15 @@ class TISRGBLight(LightEntity):
     def is_on(self):return self._attr_state
     @property
     def name(self):return self._attr_name
-    async def async_turn_on(A,**H):
+    async def async_turn_on(A,**G):
         try:
-            C=H.get(ATTR_RGB_COLOR,_A);D=H.get(ATTR_BRIGHTNESS,_A);logging.info(beta__("Y29sb3I6IHtfX3ZhcjB9", __var0=C));logging.info(beta__("YnJpZ2h0bmVzczoge19fdmFyMH0=", __var0=D))
-            if C is not _A:
-                C=tuple([int(A/255*100)for A in C]);E,F,G=A.generate_rgb_packets(A,C);B=await A.api.protocol.sender.send_packet_with_ack(E)
-                if not B:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0sIGNoYW5uZWw6IHtfX3ZhcjF9", __var0=B, __var1=A.r_channel))
-                B=await A.api.protocol.sender.send_packet_with_ack(F)
-                if not B:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0sIGNoYW5uZWw6IHtfX3ZhcjF9", __var0=B, __var1=A.g_channel))
-                B=await A.api.protocol.sender.send_packet_with_ack(G)
-                if not B:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0sIGNoYW5uZWw6IHtfX3ZhcjF9", __var0=B, __var1=A.b_channel))
-                A._attr_state=_E;C=tuple([int(A/100*255)for A in C]);A._attr_rgb_color=C;A.default_color=C;logging.info(beta__("bmV3IGRlZmF1bHQgY29sb3I6IHtfX3ZhcjB9", __var0=C))
-            elif D is not _A:
-                D=max(1,min(255,D));D/=255;C=A.default_color or(0,0,0);logging.info(beta__("ZGVmYXVsdCBjb2xvcjoge19fdmFyMH0=", __var0=C));C=tuple([int(D*A*100/255)for A in C]);E,F,G=A.generate_rgb_packets(A,C);B=await A.api.protocol.sender.send_packet_with_ack(E)
-                if not B:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0sIGNoYW5uZWw6IHtfX3ZhcjF9", __var0=B, __var1=A.r_channel))
-                B=await A.api.protocol.sender.send_packet_with_ack(F)
-                if not B:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0sIGNoYW5uZWw6IHtfX3ZhcjF9", __var0=B, __var1=A.g_channel))
-                B=await A.api.protocol.sender.send_packet_with_ack(G)
-                if not B:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0sIGNoYW5uZWw6IHtfX3ZhcjF9", __var0=B, __var1=A.b_channel))
-                logging.info(beta__("YnJpZ2h0ZW5lZCBjb2xvcjoge19fdmFyMH0=", __var0=C))
-            else:
-                logging.info(alpha__("TmVpdGhlciBjb2xvciBub3IgYnJpZ2h0bmVzcyBwcm92aWRlZCwgdXNpbmcgZGVmYXVsdCBjb2xvci4="));C=A.default_color or(0,0,0);A._attr_state=_E if A.default_color and A.default_color!=(0,0,0)else _C;A._attr_rgb_color=C;C=tuple([int(A*100/255)for A in C]);E,F,G=A.generate_rgb_packets(A,C);B=await A.api.protocol.sender.send_packet_with_ack(E)
-                if not B:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0sIGNoYW5uZWw6IHtfX3ZhcjF9", __var0=B, __var1=A.r_channel))
-                B=await A.api.protocol.sender.send_packet_with_ack(F)
-                if not B:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0sIGNoYW5uZWw6IHtfX3ZhcjF9", __var0=B, __var1=A.g_channel))
-                B=await A.api.protocol.sender.send_packet_with_ack(G)
-                if not B:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0sIGNoYW5uZWw6IHtfX3ZhcjF9", __var0=B, __var1=A.b_channel))
-        except KeyError as I:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0=", __var0=I))
+            B=G.get(ATTR_RGB_COLOR,_A);C=G.get(ATTR_BRIGHTNESS,_A);logging.info(beta__("Y29sb3I6IHtfX3ZhcjB9", __var0=B));logging.info(beta__("YnJpZ2h0bmVzczoge19fdmFyMH0=", __var0=C))
+            if B is not _A:B=tuple([int(A/255*100)for A in B]);D,E,F=A.generate_rgb_packets(A,B);await A.api.protocol.sender.send_packet(D);await A.api.protocol.sender.send_packet(E);await A.api.protocol.sender.send_packet(F);A._attr_state=_E;B=tuple([int(A/100*255)for A in B]);A._attr_rgb_color=B;A.default_color=B;logging.info(beta__("bmV3IGRlZmF1bHQgY29sb3I6IHtfX3ZhcjB9", __var0=B))
+            elif C is not _A:C=max(1,min(255,C));C/=255;B=A.default_color or(0,0,0);logging.info(beta__("ZGVmYXVsdCBjb2xvcjoge19fdmFyMH0=", __var0=B));B=tuple([int(C*A*100/255)for A in B]);D,E,F=A.generate_rgb_packets(A,B);await A.api.protocol.sender.send_packet(D);await A.api.protocol.sender.send_packet(E);await A.api.protocol.sender.send_packet(F);logging.info(beta__("YnJpZ2h0ZW5lZCBjb2xvcjoge19fdmFyMH0=", __var0=B))
+            else:logging.info(alpha__("TmVpdGhlciBjb2xvciBub3IgYnJpZ2h0bmVzcyBwcm92aWRlZCwgdXNpbmcgZGVmYXVsdCBjb2xvci4="));B=A.default_color or(0,0,0);A._attr_state=_E if A.default_color and A.default_color!=(0,0,0)else _C;A._attr_rgb_color=B;B=tuple([int(A*100/255)for A in B]);D,E,F=A.generate_rgb_packets(A,B);await A.api.protocol.sender.send_packet(D);await A.api.protocol.sender.send_packet(E);await A.api.protocol.sender.send_packet(F)
+        except KeyError as H:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0=", __var0=H))
         A.async_write_ha_state()
-    async def async_turn_off(A,**C):logging.info(alpha__("dHVybmluZyBvZmY="));logging.info(beta__("a3dhcmdzOiB7X192YXIwfQ==", __var0=C));D,E,F=A.generate_rgb_packets(A,(0,0,0));B=await A.api.protocol.sender.send_packet_with_ack(E);B=await A.api.protocol.sender.send_packet_with_ack(D);B=await A.api.protocol.sender.send_packet_with_ack(F);A._attr_state=_C;A._attr_rgb_color=0,0,0;A.async_write_ha_state()
+    async def async_turn_off(A,**B):logging.info(alpha__("dHVybmluZyBvZmY="));logging.info(beta__("a3dhcmdzOiB7X192YXIwfQ==", __var0=B));C,D,E=A.generate_rgb_packets(A,(0,0,0));await A.api.protocol.sender.send_packet(D);await A.api.protocol.sender.send_packet(C);await A.api.protocol.sender.send_packet(E);A._attr_state=_C;A._attr_rgb_color=0,0,0;A.async_write_ha_state()
 class TISRGBWLight(LightEntity):
     def __init__(A,tis_api,gateway,device_id,r_channel,g_channel,b_channel,w_channel,light_name):A.api=tis_api;A.gateway=gateway;A.device_id=device_id;A.r_channel=int(r_channel);A.g_channel=int(g_channel);A.b_channel=int(b_channel);A.w_channel=int(w_channel);A._attr_name=light_name;A._attr_state=_A;A._attr_brightness=_A;A._attr_rgbw_color=_A;A.rgbw_value_flags=[0,0,0,0];A.listener=_A;A._attr_unique_id=beta__("e19fdmFyMH1fe19fdmFyMX1fe19fdmFyMn1fe19fdmFyM31fe19fdmFyNH0=", __var0=A.name, __var1=A.r_channel, __var2=A.g_channel, __var3=A.b_channel, __var4=A.w_channel);A.default_color=0,0,0,0;A.setup_light()
     def setup_light(A):A._attr_supported_color_modes={ColorMode.RGBW};A._attr_color_mode=ColorMode.RGBW;A._attr_supported_features=LightEntityFeature.TRANSITION;A.generate_rgbw_packets=handler.generate_rgbw_light_control_packet;A.update_packet=handler.generate_control_update_packet(A)
@@ -160,29 +140,11 @@ class TISRGBWLight(LightEntity):
     def is_on(self):return self._attr_state
     @property
     def name(self):return self._attr_name
-    async def async_turn_on(A,**E):
+    async def async_turn_on(A,**D):
         try:
-            C=E.get(ATTR_RGBW_COLOR,_A);D=E.get(ATTR_BRIGHTNESS,_A);logging.warning(beta__("a3dhcmdzOiB7X192YXIwfQ==", __var0=E))
-            if C is not _A:
-                C=tuple([int(A/255*100)for A in C]);F,G,H,I=A.generate_rgbw_packets(A,C);logging.info(beta__("Y29sb3IgKHBlcmNlbnQpOiB7X192YXIwfQ==", __var0=C));B=await A.api.protocol.sender.send_packet_with_ack(F)
-                if not B:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0sIGNoYW5uZWw6IHtfX3ZhcjF9", __var0=B, __var1=A.r_channel))
-                B=await A.api.protocol.sender.send_packet_with_ack(G)
-                if not B:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0sIGNoYW5uZWw6IHtfX3ZhcjF9", __var0=B, __var1=A.g_channel))
-                B=await A.api.protocol.sender.send_packet_with_ack(H)
-                if not B:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0sIGNoYW5uZWw6IHtfX3ZhcjF9", __var0=B, __var1=A.b_channel))
-                B=await A.api.protocol.sender.send_packet_with_ack(I)
-                if not B:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0sIGNoYW5uZWw6IHtfX3ZhcjF9", __var0=B, __var1=A.w_channel))
-                A._attr_state=_E;C=tuple([int(A/100*255)for A in C]);A._attr_rgbw_color=C;A.default_color=C
-            elif D is not _A:
-                D=max(1,min(255,D));logging.warning(beta__("YnJpZ2h0bmVzczoge19fdmFyMH0sIHNlbGYuX2F0dHJfYnJpZ2h0bmVzczoge19fdmFyMX0=", __var0=D, __var1=A._attr_brightness));A._attr_brightness=D;D/=255;C=A.default_color or(0,0,0,0);logging.info(beta__("ZGVmYXVsdCBjb2xvcjoge19fdmFyMH0=", __var0=C));C=tuple([int(D*A*100/255)for A in C]);F,G,H,I=A.generate_rgbw_packets(A,C);B=await A.api.protocol.sender.send_packet_with_ack(F)
-                if not B:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0sIGNoYW5uZWw6IHtfX3ZhcjF9", __var0=B, __var1=A.r_channel))
-                B=await A.api.protocol.sender.send_packet_with_ack(G)
-                if not B:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0sIGNoYW5uZWw6IHtfX3ZhcjF9", __var0=B, __var1=A.g_channel))
-                B=await A.api.protocol.sender.send_packet_with_ack(H)
-                if not B:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0sIGNoYW5uZWw6IHtfX3ZhcjF9", __var0=B, __var1=A.b_channel))
-                B=await A.api.protocol.sender.send_packet_with_ack(I)
-                if not B:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0sIGNoYW5uZWw6IHtfX3ZhcjF9", __var0=B, __var1=A.w_channel))
-                A._attr_state=_E;C=tuple([int(A/100*255)for A in C]);A._attr_rgbw_color=C
-        except KeyError as J:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0=", __var0=J))
+            B=D.get(ATTR_RGBW_COLOR,_A);C=D.get(ATTR_BRIGHTNESS,_A);logging.warning(beta__("a3dhcmdzOiB7X192YXIwfQ==", __var0=D))
+            if B is not _A:B=tuple([int(A/255*100)for A in B]);E,F,G,H=A.generate_rgbw_packets(A,B);logging.info(beta__("Y29sb3IgKHBlcmNlbnQpOiB7X192YXIwfQ==", __var0=B));await A.api.protocol.sender.send_packet(E);await A.api.protocol.sender.send_packet(F);await A.api.protocol.sender.send_packet(G);await A.api.protocol.sender.send_packet(H);A._attr_state=_E;B=tuple([int(A/100*255)for A in B]);A._attr_rgbw_color=B;A.default_color=B
+            elif C is not _A:C=max(1,min(255,C));logging.warning(beta__("YnJpZ2h0bmVzczoge19fdmFyMH0sIHNlbGYuX2F0dHJfYnJpZ2h0bmVzczoge19fdmFyMX0=", __var0=C, __var1=A._attr_brightness));A._attr_brightness=C;C/=255;B=A.default_color or(0,0,0,0);logging.info(beta__("ZGVmYXVsdCBjb2xvcjoge19fdmFyMH0=", __var0=B));B=tuple([int(C*A*100/255)for A in B]);E,F,G,H=A.generate_rgbw_packets(A,B);await A.api.protocol.sender.send_packet(E);await A.api.protocol.sender.send_packet(F);await A.api.protocol.sender.send_packet(G);await A.api.protocol.sender.send_packet(H);A._attr_state=_E;B=tuple([int(A/100*255)for A in B]);A._attr_rgbw_color=B
+        except KeyError as I:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0=", __var0=I))
         A.async_write_ha_state()
-    async def async_turn_off(A,**G):C,D,E,F=A.generate_rgbw_packets(A,(0,0,0,0));B=await A.api.protocol.sender.send_packet_with_ack(C);B=await A.api.protocol.sender.send_packet_with_ack(D);B=await A.api.protocol.sender.send_packet_with_ack(E);B=await A.api.protocol.sender.send_packet_with_ack(F);A._attr_state=_C;A._attr_rgbw_color=0,0,0,0;A.async_write_ha_state()
+    async def async_turn_off(A,**F):B,C,D,E=A.generate_rgbw_packets(A,(0,0,0,0));await A.api.protocol.sender.send_packet(B);await A.api.protocol.sender.send_packet(C);await A.api.protocol.sender.send_packet(D);await A.api.protocol.sender.send_packet(E);A._attr_state=_C;A._attr_rgbw_color=0,0,0,0;A.async_write_ha_state()
