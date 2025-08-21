@@ -108,10 +108,20 @@ ENERGY_SENSOR_TYPES = {
 
 HEALTH_SENSOR_TYPES = {
     "noise": "Noise Sensor",
-    "eco2": "ECO2 Sensor",
-    "tvoc": "TVOC Sensor",
+    "eco2_state": "ECO2 Sensor",
+    "tvoc_state": "TVOC Sensor",
     "humidity": "Humidity Sensor",
-    "co": "CO Sensor",
+    "co_state": "CO Sensor",
     "lux": "Lux Sensor",
     "temp": "Temperature Sensor",
+}
+
+# for eco2,tvoc,co states >>  0: Not Ready, 1: Excellent, 2: Normal, 3: Low Risk, 4: Med Risk, 5: High Risk
+HEALTH_STATES = {
+    "0": "Not Ready",
+    "1": "Excellent",
+    "2": "Normal",
+    "3": "Low Risk",
+    "4": "Med Risk",
+    "5": "High Risk",
 }
