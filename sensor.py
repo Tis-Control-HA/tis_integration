@@ -127,7 +127,7 @@ class CoordinatedHealthSensor(BaseSensorEntity,SensorEntity):
             B=event
             try:
                 if B.data[_B]==_K:
-                    logging.warning(beta__("SGVhbHRoIGZlZWRiYWNrIHJlY2VpdmVkOiB7X192YXIwfQ==", __var0=B.data))
+                    logging.info(beta__("SGVhbHRoIGZlZWRiYWNrIHJlY2VpdmVkOiB7X192YXIwfQ==", __var0=B.data))
                     if A._sensor_type==_H:A._state=A.calculate_health_percentage(B.data)
                     else:
                         A._state=int(B.data.get(A._key,_A))

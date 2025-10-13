@@ -47,7 +47,8 @@ class TISSwitch(SwitchEntity):
                     A._state=C
                     if A._state in(STATE_ON,STATE_OFF):A._stop_polling()
                     A.async_write_ha_state()
-        try:A.listener=A.hass.bus.async_listen(MATCH_ALL,B);await A._async_poll_for_state()
+                elif A._state==STATE_UNKNOWN:A._start_polling()
+        try:A.listener=A.hass.bus.async_listen(MATCH_ALL,B);await A._async_poll_for_state();A._start_polling()
         except Exception as C:logging.error(beta__("ZXJyb3IgaW4gYXN5bmNfYWRkZWRfdG9faGFzcyBmdW4gZToge19fdmFyMH0=", __var0=C))
     async def async_will_remove_from_hass(A):
         if A.listener:A.listener();A.listener=_A
