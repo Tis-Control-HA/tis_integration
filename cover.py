@@ -11,6 +11,9 @@ import logging
 from math import ceil
 from typing import Any
 import json
+from homeassistant.helpers.event import async_track_time_interval
+from collections.abc import Callable
+from datetime import timedelta
 from TISControlProtocol.api import TISApi
 from TISControlProtocol.BytesHelper import int_to_8_bit_binary
 from TISControlProtocol.Protocols.udp.ProtocolHandler import TISPacket,TISProtocolHandler
@@ -20,6 +23,7 @@ from homeassistant.core import Event,HomeAssistant,callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from.import TISConfigEntry
 handler=TISProtocolHandler()
+POLLING_INTERVAL=timedelta(seconds=60)
 async def async_setup_entry(hass,entry,async_add_devices):
     I=alpha__("Z2F0ZXdheQ==");H=alpha__("ZGV2aWNlX2lk");E=async_add_devices;D=alpha__("Y2hhbm5lbHM=");A=entry.runtime_data.api;F=await A.get_entities(platform=alpha__("bW90b3I="));G=await A.get_entities(platform=alpha__("c2h1dHRlcg=="))
     if F:B=[(B,next(iter(A[D][0].values())),A[H],A[I],A[alpha__("c2V0dGluZ3M=")])for A in F for(B,A)in A.items()];C=[TISCoverWPos(tis_api=A,cover_name=B,channel_number=C,device_id=D,gateway=E,settings=F)for(B,C,D,E,F)in B];E(C,update_before_add=_B)
@@ -29,8 +33,14 @@ class TISCoverWPos(CoverEntity):
         B=settings
         if B:B=json.loads(B);A.exchange_command=B[alpha__("ZXhjaGFuZ2VfY29tbWFuZA==")]
         else:A.exchange_command=alpha__("MA==")
-        A.api=tis_api;A.gateway=gateway;A.device_id=device_id;A.channel_number=int(channel_number);A._attr_name=cover_name;A._attr_is_closed=_A;A._attr_current_cover_position=_A;A._attr_device_class=CoverDeviceClass.SHUTTER;A._attr_unique_id=beta__("e19fdmFyMH1fe19fdmFyMX0=", __var0=A._attr_name, __var1=A.channel_number);A.listener=_A;A.update_packet=handler.generate_control_update_packet(A);A.generate_cover_packet=handler.generate_light_control_packet
+        A.api=tis_api;A.gateway=gateway;A.device_id=device_id;A.channel_number=int(channel_number);A._attr_name=cover_name;A._attr_is_closed=_A;A._attr_current_cover_position=_A;A._attr_device_class=CoverDeviceClass.SHUTTER;A._attr_unique_id=beta__("e19fdmFyMH1fe19fdmFyMX0=", __var0=A._attr_name, __var1=A.channel_number);A.listener=_A;A.update_packet=handler.generate_control_update_packet(A);A.generate_cover_packet=handler.generate_light_control_packet;A._update_task_unsub=_A
+    def _start_polling(A):
+        if not A._update_task_unsub:logging.info(beta__("U3RhcnRpbmcgc3RhdGUgcG9sbGluZyBmb3Ige19fdmFyMH0=", __var0=A.name));A._update_task_unsub=async_track_time_interval(A.hass,A._async_poll_for_state,POLLING_INTERVAL)
+    def _stop_polling(A):
+        if A._update_task_unsub:logging.info(beta__("U3RvcHBpbmcgc3RhdGUgcG9sbGluZyBmb3Ige19fdmFyMH0=", __var0=A.name));A._update_task_unsub();A._update_task_unsub=_A
+    async def _async_poll_for_state(A,now=_A):logging.info(beta__("UG9sbGluZyBmb3Igc3RhdGUgb2Yge19fdmFyMH0=", __var0=A.name));await A.api.protocol.sender.send_packet(A.update_packet)
     async def async_added_to_hass(A):
+        A._start_polling()
         @callback
         async def B(event):
             C=event
@@ -40,13 +50,13 @@ class TISCoverWPos(CoverEntity):
                     if int(E)==A.channel_number:
                         B=D
                         if A.exchange_command==alpha__("MQ=="):B=100-B
-                        A._attr_is_closed=B==0;A._attr_current_cover_position=B
+                        A._attr_is_closed=B<20;A._attr_current_cover_position=B
                     A.async_write_ha_state()
                 elif C.data[_D]==alpha__("dXBkYXRlX3Jlc3BvbnNl"):
                     F=C.data[_E];B=F[A.channel_number]
                     if A.exchange_command==alpha__("MQ=="):B=100-B
-                    A._attr_current_cover_position=B;A._attr_is_closed=A._attr_current_cover_position==0;A._attr_state=STATE_CLOSING if A._attr_is_closed else STATE_OPENING
-                elif C.data[_D]==alpha__("b2ZmbGluZV9kZXZpY2U="):A._attr_state=STATE_UNKNOWN;A._attr_is_closed=_A;A._attr_current_cover_position=_A
+                    A._attr_current_cover_position=B;A._attr_is_closed=A._attr_current_cover_position<20;A._attr_state=STATE_CLOSING if A._attr_is_closed else STATE_OPENING;A._stop_polling()
+                elif C.data[_D]==alpha__("b2ZmbGluZV9kZXZpY2U="):A._attr_state=STATE_UNKNOWN;A._start_polling();A._attr_is_closed=_A;A._attr_current_cover_position=_A
             await A.async_update_ha_state(_B)
         A.listener=A.hass.bus.async_listen(str(A.device_id),B);C=await A.api.protocol.sender.send_packet(A.update_packet)
     def _convert_position(B,position):
@@ -65,21 +75,21 @@ class TISCoverWPos(CoverEntity):
     def unique_id(self):return self._attr_unique_id
     async def async_open_cover(A,**E):
         B=A._convert_position(100);C=A.generate_cover_packet(A,B);D=await A.api.protocol.sender.send_packet_with_ack(C)
-        if D:A._attr_is_closed=_C;A._attr_current_cover_position=100
-        else:A._attr_is_closed=_A;A._attr_current_cover_position=_A
+        if D:A._attr_is_closed=_C;A._attr_current_cover_position=100;A._stop_polling()
+        else:A._start_polling();A._attr_is_closed=_A;A._attr_current_cover_position=_A
         A.async_write_ha_state()
     async def async_close_cover(A,**E):
         B=A._convert_position(0);C=A.generate_cover_packet(A,B);D=await A.api.protocol.sender.send_packet_with_ack(C)
-        if D:A._attr_is_closed=_B;A._attr_current_cover_position=0
-        else:A._attr_is_closed=_A;A._attr_current_cover_position=_A
+        if D:A._attr_is_closed=_B;A._attr_current_cover_position=0;A._stop_polling()
+        else:A._attr_is_closed=_A;A._attr_current_cover_position=_A;A._start_polling()
         A.async_write_ha_state()
     async def async_set_cover_position(A,**D):
         C=D[ATTR_POSITION];B=A._convert_position(C);E=A.generate_cover_packet(A,B);F=await A.api.protocol.sender.send_packet_with_ack(E)
-        if F:A._attr_is_closed=B<=20 if A.exchange_command==alpha__("MA==")else B>=80;A._attr_current_cover_position=C
-        else:A._attr_is_closed=_A;A._attr_current_cover_position=_A
+        if F:A._attr_is_closed=B<=20 if A.exchange_command==alpha__("MA==")else B>=80;A._attr_current_cover_position=C;A._stop_polling()
+        else:A._attr_is_closed=_A;A._attr_current_cover_position=_A;A._start_polling()
         A.async_write_ha_state()
 class TISCoverNoPos(CoverEntity):
-    def __init__(A,tis_api,gateway,cover_name,up_channel_number,down_channel_number,device_id):A.api=tis_api;A.gateway=gateway;A.device_id=device_id;A.up_channel_number=int(up_channel_number);A.down_channel_number=int(down_channel_number);A._attr_name=cover_name;A._attr_unique_id=beta__("e19fdmFyMH1fe19fdmFyMX1fe19fdmFyMn0=", __var0=A._attr_name, __var1=A.up_channel_number, __var2=A.down_channel_number);A.channel_number=A.up_channel_number;A._attr_is_closed=_A;A._attr_device_class=CoverDeviceClass.WINDOW;A.last_state=STATE_OPENING;A.listener=_A
+    def __init__(A,tis_api,gateway,cover_name,up_channel_number,down_channel_number,device_id):A.api=tis_api;A.gateway=gateway;A.device_id=device_id;A.up_channel_number=int(up_channel_number);A.down_channel_number=int(down_channel_number);A._attr_name=cover_name;A._attr_unique_id=beta__("e19fdmFyMH1fe19fdmFyMX1fe19fdmFyMn0=", __var0=A._attr_name, __var1=A.up_channel_number, __var2=A.down_channel_number);A.channel_number=A.up_channel_number;A._attr_is_closed=_C;A._attr_device_class=CoverDeviceClass.WINDOW;A.last_state=STATE_OPENING;A.listener=_A
     async def async_added_to_hass(A):
         @callback
         async def B(event):

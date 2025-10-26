@@ -67,7 +67,8 @@ class TISClimate(ClimateEntity):
                             elif A._attr_hvac_mode==HVACMode.HEAT:A._attr_target_temperature=B.data[alpha__("aGVhdF90ZW1w")]
                             elif A._attr_hvac_mode==HVACMode.AUTO:A._attr_target_temperature=B.data[alpha__("YXV0b190ZW1w")]
                             else:A._attr_target_temperature=_A
-            A._stop_polling();A.async_write_ha_state();await A.async_update_ha_state(_D)
+                    A._stop_polling()
+            A.async_write_ha_state();await A.async_update_ha_state(_D)
         A.listener=A.hass.bus.async_listen(str(A.device_id),B);await A.api.protocol.sender.send_packet(A.update_packet)
     @property
     def name(self):return self._name
