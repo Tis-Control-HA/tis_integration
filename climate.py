@@ -125,6 +125,7 @@ class TISFloorHeating(ClimateEntity):
                 if E==alpha__("Zmxvb3JfZmVlZGJhY2s="):
                     logging.info(beta__("Zmxvb3IgaGVhdGluZyBmZWVkYmFjayBldmVudDoge19fdmFyMH0=", __var0=B.data));F=B.data[_G];D=B.data[_H];C=B.data[_I]
                     if A.heater_number==int(F):
+                        A._stop_polling()
                         if D==20:
                             if C==0:A._attr_state=STATE_OFF;A._attr_hvac_mode=HVACMode.OFF;logging.info(alpha__("SGVhdGVyIHR1cm5lZCBvZmY="))
                             else:A._attr_state=STATE_ON;A._attr_hvac_mode=HVACMode.HEAT;A._attr_target_temperature=C;logging.info(beta__("SGVhdGluZyBtb2RlIHRlbXBlcmF0dXJlIHVwZGF0ZWQgdG8ge19fdmFyMH0=", __var0=C))
@@ -133,12 +134,13 @@ class TISFloorHeating(ClimateEntity):
                 elif E==alpha__("Zmxvb3JfdXBkYXRl"):
                     logging.info(beta__("Zmxvb3IgaGVhdGluZyB1cGRhdGUgZXZlbnQ6IHtfX3ZhcjB9", __var0=B.data))
                     if B.data[alpha__("aGVhdGVyX251bWJlcg==")]==A.heater_number:
+                        A._stop_polling()
                         if B.data[alpha__("c3RhdGU=")]==0:A._attr_state=STATE_OFF;A._attr_hvac_mode=HVACMode.OFF
                         else:
                             A._attr_state=STATE_ON;A._attr_hvac_mode=HVACMode.HEAT;A._attr_min_temp=TEMPERATURE_RANGES[A.hvac_mode][_B][A._unit_index];A._attr_max_temp=TEMPERATURE_RANGES[A.hvac_mode][_C][A._unit_index]
                             if A._attr_hvac_mode==HVACMode.HEAT:A._attr_target_temperature=B.data[alpha__("dGVtcA==")]
                             else:A._attr_target_temperature=_A
-            A._stop_polling();A.async_write_ha_state();await A.async_update_ha_state(_D)
+            A.async_write_ha_state();await A.async_update_ha_state(_D)
         A.listener=A.hass.bus.async_listen(str(A.device_id),B);await A.api.protocol.sender.send_packet(A.update_packet)
     @property
     def name(self):return self._name
