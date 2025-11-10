@@ -108,7 +108,7 @@ class TISClimate(ClimateEntity):
         else:A._attr_state=STATE_UNKNOWN;logging.error(alpha__("RmFpbGVkIHRvIHNldCB0ZW1wZXJhdHVyZQ=="));A._attr_target_temperature=_A;A._attr_hvac_mode=_A;A._start_polling()
         A.async_write_ha_state()
 class TISFloorHeating(ClimateEntity):
-    def __init__(A,tis_api,heater_name,heater_number,device_id,gateway):A.api=tis_api;A._name=heater_name;A.device_id=device_id;A.heater_number=int(heater_number)-1;A._attr_unique_id=beta__("Zmxvb3JfaGVhdGVyX3tfX3ZhcjB9X3tfX3ZhcjF9", __var0=A.device_id, __var1=A.heater_number);A.gateway=gateway;A._attr_temperature_unit=UnitOfTemperature.CELSIUS;A._unit_index=0 if A._attr_temperature_unit==UnitOfTemperature.CELSIUS else 1;A.update_packet=handler.generate_floor_update_packet(A);A.listener=_A;A._attr_state=STATE_OFF;A._attr_target_temperature=_A;A._attr_current_temperature=_A;A._attr_max_temp=_A;A._attr_min_temp=_A;A._attr_target_temperature_step=_A;A.setup_heater()
+    def __init__(A,tis_api,heater_name,heater_number,device_id,gateway):A.api=tis_api;A._name=heater_name;A.device_id=device_id;A.heater_number=int(heater_number)-1;A._attr_unique_id=beta__("Zmxvb3JfaGVhdGVyX3tfX3ZhcjB9X3tfX3ZhcjF9", __var0=A.device_id, __var1=A.heater_number);A.gateway=gateway;A._attr_temperature_unit=UnitOfTemperature.CELSIUS;A._unit_index=0 if A._attr_temperature_unit==UnitOfTemperature.CELSIUS else 1;A.update_packet=handler.generate_floor_update_packet(A);A.listener=_A;A._attr_state=STATE_OFF;A._attr_target_temperature=_A;A._attr_max_temp=_A;A._attr_min_temp=_A;A._attr_target_temperature_step=_A;A.setup_heater()
     def setup_heater(A):A._attr_hvac_mode=HVACMode.HEAT;A._attr_max_temp=TEMPERATURE_RANGES[A._attr_hvac_mode][_C][A._unit_index];A._attr_min_temp=TEMPERATURE_RANGES[A._attr_hvac_mode][_B][A._unit_index];A._attr_target_temperature=TEMPERATURE_RANGES[A._attr_hvac_mode][alpha__("dGFyZ2V0")][A._unit_index];A._attr_target_temperature_step=1 if A._unit_index==0 else 2;A._attr_hvac_modes=[HVACMode.OFF,HVACMode.HEAT];A._attr_supported_features=ClimateEntityFeature.TARGET_TEMPERATURE|ClimateEntityFeature.TURN_OFF|ClimateEntityFeature.TURN_ON;A.mode_target_temperatures={HVACMode.HEAT:30,HVACMode.OFF:_A}
     async def async_added_to_hass(A):
         @callback
@@ -121,8 +121,8 @@ class TISFloorHeating(ClimateEntity):
                     if A.heater_number==int(F):
                         if D==20:
                             if C==0:A._attr_state=STATE_OFF;A._attr_hvac_mode=HVACMode.OFF;logging.info(alpha__("SGVhdGVyIHR1cm5lZCBvZmY="))
-                            else:A._attr_state=STATE_ON;A._attr_hvac_mode=HVACMode.HEAT;A._attr_target_temperature=C;A._attr_current_temperature=C;logging.info(beta__("SGVhdGluZyBtb2RlIHRlbXBlcmF0dXJlIHVwZGF0ZWQgdG8ge19fdmFyMH0=", __var0=C))
-                        elif D==24:A._attr_target_temperature=C;A._attr_current_temperature=C
+                            else:A._attr_state=STATE_ON;A._attr_hvac_mode=HVACMode.HEAT;A._attr_target_temperature=C;logging.info(beta__("SGVhdGluZyBtb2RlIHRlbXBlcmF0dXJlIHVwZGF0ZWQgdG8ge19fdmFyMH0=", __var0=C))
+                        elif D==24:A._attr_target_temperature=C
                         else:logging.error(beta__("VW5rbm93biBzdWIgb3BlcmF0aW9uIGZvciBBQyBmZWVkYmFjazoge19fdmFyMH0=", __var0=D))
                 elif E==alpha__("Zmxvb3JfdXBkYXRl"):
                     logging.info(beta__("Zmxvb3IgaGVhdGluZyB1cGRhdGUgZXZlbnQ6IHtfX3ZhcjB9", __var0=B.data))
@@ -152,4 +152,4 @@ class TISFloorHeating(ClimateEntity):
     @property
     def should_poll(self):return _E
     async def async_set_hvac_mode(A,hvac_mode):B=handler.generate_floor_on_off_packet(A,0 if hvac_mode==HVACMode.OFF else 1);await A.api.protocol.sender.send_packet(B)
-    async def async_set_temperature(A,**C):D=C.get(ATTR_TEMPERATURE);B=handler.generate_floor_on_off_packet(A,0 if A._attr_state==STATE_OFF else 1);await A.api.protocol.sender.send_packet(B);B=handler.generate_floor_set_temp_packet(A,int(D));await A.api.protocol.sender.send_packet_with_ack(B)
+    async def async_set_temperature(A,**C):D=C.get(ATTR_TEMPERATURE);B=handler.generate_floor_on_off_packet(A,0 if A._attr_state==STATE_OFF else 1);await A.api.protocol.sender.send_packet(B);B=handler.generate_floor_set_temp_packet(A,int(D));await A.api.protocol.sender.send_packet(B)
