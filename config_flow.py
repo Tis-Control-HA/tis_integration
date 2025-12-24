@@ -12,7 +12,7 @@ class TISConfigFlow(ConfigFlow,domain=DOMAIN):
     async def async_step_user(C,user_input=None):
         A=user_input;B={}
         if A is not None:
-            logging.info(beta__("cmVjaWV2ZWQgdXNlciBpbnB1dCB7X192YXIwfQ==", __var0=A));D=await C.validate_port(A[CONF_PORT])
+            logging.info(beta__("cmVjZWl2ZWQgdXNlciBpbnB1dCB7X192YXIwfQ==", __var0=A));D=await C.validate_port(A[CONF_PORT])
             if not D:B[alpha__("YmFzZQ==")]=alpha__("aW52YWxpZF9wb3J0");logging.error(beta__("UHJvdmlkZWQgcG9ydCBpcyBpbnZhbGlkOiB7X192YXIwfQ==", __var0=A[CONF_PORT]))
             if not B:return C.async_create_entry(title=alpha__("VElTIENvbnRyb2wgQnJpZGdl"),data=A)
             else:logging.error(beta__("RXJyb3JzIG9jY3VycmVkOiB7X192YXIwfQ==", __var0=B));return C._show_setup_form(B)

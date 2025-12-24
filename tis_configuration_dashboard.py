@@ -1,4 +1,5 @@
 import os
+import re
 from ruamel.yaml import YAML
 import logging
 
@@ -34,6 +35,59 @@ def create():
                 "filename": dashboard_filename,
                 "require_admin": True,
             }
+
+        if "panel_custom" not in config or config["panel_custom"] is None:
+            config["panel_custom"] = []
+
+        password_dashboard = {
+            "name": "password-dashboard-loader",
+            "sidebar_title": "My Passwords",
+            "sidebar_icon": "mdi:lock-smart",
+            "module_url": "/local/tis_assets/password_dashboard_loader.js?v=4.0.1",
+            "require_admin": True,
+            "url_path": "my-passwords",
+        }
+
+        def get_version_from_url(url_str):
+            """Helper to extract version float/string from url parameters"""
+            if not url_str:
+                return [0, 0, 0]
+            # Looks for v=X.X.X
+            match = re.search(r"[?&]v=(\d+(?:\.\d+)*)", url_str)
+            if match:
+                # Convert "4.0.0" -> [4, 0, 0] for easy comparison
+                return [int(x) for x in match.group(1).split(".")]
+            return [0, 0, 0]
+
+        # Logic to check existence and version
+        if isinstance(config["panel_custom"], list):
+            target_version = get_version_from_url(password_dashboard["module_url"])
+            entry_index = -1
+
+            # 1. Search for existing entry
+            for idx, entry in enumerate(config["panel_custom"]):
+                if entry.get("name") == password_dashboard["name"]:
+                    entry_index = idx
+                    break
+
+            # 2. Update or Append
+            if entry_index != -1:
+                # Entry exists, check version
+                existing_url = config["panel_custom"][entry_index].get("module_url", "")
+                current_version = get_version_from_url(existing_url)
+
+                # Compare lists of integers (e.g. [4, 1, 0] > [4, 0, 0])
+                if target_version > current_version:
+                    logging.info(
+                        f"Upgrading Password Dashboard from {current_version} to {target_version}"
+                    )
+                    config["panel_custom"][entry_index] = password_dashboard
+                else:
+                    logging.info("Password Dashboard version is up to date.")
+            else:
+                # Entry does not exist, append it
+                logging.info("Adding Password Dashboard to panel_custom.")
+                config["panel_custom"].append(password_dashboard)
 
         # 3. Save configuration.yaml
         with open(config_path, "w") as f:

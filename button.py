@@ -17,5 +17,5 @@ async def async_setup_entry(hass,config_entry,async_add_entities):
 protocol_handler=TISProtocolHandler()
 class TISUniversalSwitch(ButtonEntity):
     _attr_has_entity_name=True;_attr_name=None;_attr_should_poll=False
-    def __init__(A,tis_api,device_name,channel_number,device_id,gateway,universal_type=0):B=device_name;A._attr_unique_id=beta__("dW5pdmVyc2FsX3N3aXRjaF97X192YXIwfQ==", __var0=B);A._attr_name=B;A.device_id=device_id;A.gateway=gateway;A.channel_number=channel_number;A.api=tis_api;A.universal_type=int(universal_type*255);A._attr_device_info=DeviceInfo(identifiers={(DOMAIN,A._attr_unique_id)},name=B);A.press_packet=protocol_handler.generate_universal_switch_packet(A);logging.warning(beta__("cHJlc3MgcGFja2V0OiB7X192YXIwfQ==", __var0=A.press_packet))
+    def __init__(A,tis_api,device_name,channel_number,device_id,gateway,universal_type=0):B=device_name;A._attr_unique_id=beta__("dW5pdmVyc2FsX3N3aXRjaF97X192YXIwfQ==", __var0=B);A._attr_name=B;A.device_id=device_id;A.gateway=gateway;A.channel_number=channel_number;A.api=tis_api;A.universal_type=int(universal_type*255);A._attr_device_info=DeviceInfo(identifiers={(DOMAIN,A._attr_unique_id)},name=B);A.press_packet=protocol_handler.generate_universal_switch_packet(A)
     async def async_press(A):return await A.api.protocol.sender.send_packet(A.press_packet)

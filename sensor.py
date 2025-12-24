@@ -13,8 +13,7 @@ _C=alpha__("ZW5lcmd5X3NlbnNvcg==")
 _B=alpha__("ZmVlZGJhY2tfdHlwZQ==")
 _A=None
 from datetime import timedelta
-import logging,json
-from gpiozero import CPUTemperature
+import psutil,logging,json
 from TISControlProtocol.api import TISApi
 from TISControlProtocol.Protocols.udp.ProtocolHandler import TISProtocolHandler
 from homeassistant.components.sensor import SensorEntity,UnitOfTemperature
@@ -153,8 +152,8 @@ class CoordinatedAnalogSensor(BaseSensorEntity,SensorEntity):
         A.hass.bus.async_listen(str(A.device_id),B)
     def _update_state(A,data):0
 class CPUTemperatureSensor(SensorEntity):
-    def __init__(A,hass):A._cpu=CPUTemperature();A._state=A._cpu.temperature;A._hass=hass;A._attr_name=alpha__("Q1BVIFRlbXBlcmF0dXJlIFNlbnNvcg==");A._attr_icon=_J;A._attr_update_interval=timedelta(seconds=10);A._attr_unique_id=beta__("c2Vuc29yX3tfX3ZhcjB9", __var0=A.name);async_track_time_interval(A._hass,A.async_update,A._attr_update_interval)
-    async def async_update(A,event_time):A._state=A._cpu.temperature;A.hass.bus.async_fire(alpha__("Y3B1X3RlbXBlcmF0dXJl"),{alpha__("dGVtcGVyYXR1cmU="):int(A._state)});A.async_write_ha_state()
+    def __init__(A,hass):A._state=0;A._hass=hass;A._attr_name=alpha__("Q1BVIFRlbXBlcmF0dXJlIFNlbnNvcg==");A._attr_icon=_J;A._attr_update_interval=timedelta(seconds=10);A._attr_unique_id=beta__("c2Vuc29yX3tfX3ZhcjB9", __var0=A.name);async_track_time_interval(A._hass,A.async_update,A._attr_update_interval)
+    async def async_update(B,event_time):A=await B.hass.async_add_executor_job(psutil.sensors_temperatures);A=A.get(alpha__("Y3B1X3RoZXJtYWw="),_A);A=A[0].current if A else 0;B._state=A;B.hass.bus.async_fire(alpha__("Y3B1X3RlbXBlcmF0dXJl"),{alpha__("dGVtcGVyYXR1cmU="):int(B._state)});B.async_write_ha_state()
     @property
     def should_poll(self):return False
     @property
