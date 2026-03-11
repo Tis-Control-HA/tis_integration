@@ -7,15 +7,7 @@
   "homekit": {},
   "iot_class": "local_polling",
   "requirements": [
-<<<<<<< Updated upstream
-    "TISControlProtocol==1.0.47",
-=======
-<<<<<<< HEAD
     "TISControlProtocol==1.0.58",
-=======
-    "TISControlProtocol==1.0.47",
->>>>>>> f263abcb1da29b0f40c48adec4186527495f5dce
->>>>>>> Stashed changes
     "aiofiles==24.1.0",
     "RPi.GPIO==0.7.1",
     "st7789==0.0.4",
