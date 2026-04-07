@@ -1,21 +1,20 @@
 from __future__ import annotations
 from TISControlProtocol import *
 _A=None
+import logging
 from collections.abc import Callable
-from datetime import timedelta
 from math import ceil
 from typing import Any
-from TISControlProtocol.BytesHelper import int_to_8_bit_binary
-from TISControlProtocol.api import TISApi
-from TISControlProtocol.Protocols.udp.ProtocolHandler import TISPacket,TISProtocolHandler
 from homeassistant.components.switch import SwitchEntity
 from homeassistant.const import MATCH_ALL,STATE_OFF,STATE_ON,STATE_UNKNOWN,Platform
 from homeassistant.core import Event,HomeAssistant,callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.event import async_track_time_interval
-import logging
+from TISControlProtocol.api import TISApi
+from TISControlProtocol.BytesHelper import int_to_8_bit_binary
+from TISControlProtocol.Protocols.udp.ProtocolHandler import TISPacket,TISProtocolHandler
 from.import TISConfigEntry
-POLLING_INTERVAL=timedelta(seconds=60)
+from.const import POLLING_INTERVAL
 async def async_setup_entry(hass,entry,async_add_devices):
     A=entry.runtime_data.api;B=await A.get_entities(platform=Platform.SWITCH)
     if B:

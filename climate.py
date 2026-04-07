@@ -10,21 +10,19 @@ _D=alpha__("bWlu")
 _C=False
 _B=True
 _A=None
-from homeassistant.helpers.event import async_track_time_interval
-from collections.abc import Callable
-from datetime import timedelta
 import logging
+from collections.abc import Callable
 from typing import Any
-from TISControlProtocol.api import TISApi
-from TISControlProtocol.Protocols.udp.ProtocolHandler import TISPacket,TISProtocolHandler
 from homeassistant.components.climate import ATTR_TEMPERATURE,FAN_AUTO,FAN_HIGH,FAN_LOW,FAN_MEDIUM,ClimateEntity,ClimateEntityFeature,HVACMode,UnitOfTemperature
 from homeassistant.const import STATE_OFF,STATE_ON,STATE_UNKNOWN
 from homeassistant.core import Event,HomeAssistant,callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.event import async_track_time_interval
+from TISControlProtocol.api import TISApi
+from TISControlProtocol.Protocols.udp.ProtocolHandler import TISPacket,TISProtocolHandler
 from.import TISConfigEntry
-from.const import FAN_MODES,TEMPERATURE_RANGES
+from.const import FAN_MODES,POLLING_INTERVAL,TEMPERATURE_RANGES
 handler=TISProtocolHandler()
-POLLING_INTERVAL=timedelta(seconds=60)
 async def async_setup_entry(hass,entry,async_add_devices):
     H=alpha__("Z2F0ZXdheQ==");G=alpha__("aXNfcHJvdGVjdGVk");F=alpha__("ZGV2aWNlX2lk");E=alpha__("Y2hhbm5lbHM=");B=async_add_devices;A=entry.runtime_data.api;C=await A.get_entities(platform=alpha__("YWM="))
     if C:I=[(C,next(iter(A[E][0].values())),A[F],A[G],A[H])for B in C for(C,A)in B.items()];J=[TISClimate(tis_api=A,ac_name=B,ac_number=C,device_id=D,gateway=E)for(B,C,D,F,E)in I];B(J)
@@ -34,10 +32,10 @@ class TISClimate(ClimateEntity):
     def __init__(A,tis_api,ac_name,ac_number,device_id,gateway):A.api=tis_api;A._name=ac_name;A.device_id=device_id;A.ac_number=int(ac_number)-1;A._attr_unique_id=beta__("YWNfe19fdmFyMH1fe19fdmFyMX0=", __var0=A.device_id, __var1=A.ac_number);A.gateway=gateway;A._attr_temperature_unit=UnitOfTemperature.CELSIUS;A._unit_index=0 if A._attr_temperature_unit==UnitOfTemperature.CELSIUS else 1;A.update_packet=handler.generate_ac_update_packet(A);A.listener=_A;A._update_task_unsub=_A;A._attr_state=STATE_OFF;A._attr_target_temperature=_A;A._attr_max_temp=_A;A._attr_min_temp=_A;A._attr_target_temperature_step=_A;A.setup_ac()
     def setup_ac(A):A._attr_state=STATE_UNKNOWN;A._attr_target_temperature=_A;A._attr_hvac_mode=_A;A._attr_fan_mode=_A;A._attr_max_temp=26;A._attr_min_temp=15;A._attr_target_temperature_step=1 if A._unit_index==0 else 2;A._attr_hvac_modes=[HVACMode.OFF,HVACMode.HEAT,HVACMode.COOL,HVACMode.AUTO,HVACMode.FAN_ONLY];A._attr_supported_features=ClimateEntityFeature.FAN_MODE|ClimateEntityFeature.TARGET_TEMPERATURE|ClimateEntityFeature.TURN_OFF|ClimateEntityFeature.TURN_ON;A._attr_fan_modes=[FAN_AUTO,FAN_LOW,FAN_MEDIUM,FAN_HIGH];A.mode_target_temperatures={HVACMode.COOL:20,HVACMode.HEAT:30,HVACMode.FAN_ONLY:_A,HVACMode.AUTO:20,HVACMode.OFF:_A};A.default_attributes={_F:HVACMode.COOL,alpha__("dGFyZ2V0X2Zhbl9tb2Rl"):FAN_MEDIUM}
     def _start_polling(A):
-        if not A._update_task_unsub:logging.warning(beta__("U3RhcnRpbmcgc3RhdGUgcG9sbGluZyBmb3Ige19fdmFyMH0=", __var0=A.name));A._update_task_unsub=async_track_time_interval(A.hass,A._async_poll_for_state,POLLING_INTERVAL)
+        if not A._update_task_unsub:logging.info(beta__("U3RhcnRpbmcgc3RhdGUgcG9sbGluZyBmb3Ige19fdmFyMH0=", __var0=A.name));A._update_task_unsub=async_track_time_interval(A.hass,A._async_poll_for_state,POLLING_INTERVAL)
     def _stop_polling(A):
-        if A._update_task_unsub:logging.warning(beta__("U3RvcHBpbmcgc3RhdGUgcG9sbGluZyBmb3Ige19fdmFyMH0=", __var0=A.name));A._update_task_unsub();A._update_task_unsub=_A
-    async def _async_poll_for_state(A,now=_A):logging.warning(beta__("UG9sbGluZyBmb3Igc3RhdGUgb2Yge19fdmFyMH0=", __var0=A.name));await A.api.protocol.sender.send_packet(A.update_packet)
+        if A._update_task_unsub:logging.info(beta__("U3RvcHBpbmcgc3RhdGUgcG9sbGluZyBmb3Ige19fdmFyMH0=", __var0=A.name));A._update_task_unsub();A._update_task_unsub=_A
+    async def _async_poll_for_state(A,now=_A):logging.info(beta__("UG9sbGluZyBmb3Igc3RhdGUgb2Yge19fdmFyMH0=", __var0=A.name));await A.api.protocol.sender.send_packet(A.update_packet)
     async def async_added_to_hass(A):
         @callback
         async def B(event):

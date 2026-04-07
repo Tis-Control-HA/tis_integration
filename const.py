@@ -1,5 +1,7 @@
 """Constants for the TIS integration."""
 
+from datetime import timedelta
+
 from homeassistant.components.climate import (
     ATTR_TEMPERATURE,
     FAN_AUTO,
@@ -125,3 +127,5 @@ HEALTH_STATES = {
     "4": "Med Risk",
     "5": "High Risk",
 }
+
+POLLING_INTERVAL = timedelta(seconds=60)
