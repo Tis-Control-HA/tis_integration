@@ -12,7 +12,7 @@ import logging
 from collections.abc import Callable
 from math import ceil
 from typing import Any
-from homeassistant.components.light import ATTR_BRIGHTNESS,ATTR_RGB_COLOR,ATTR_RGBW_COLOR,ColorMode,LightEntity,LightEntityFeature
+from homeassistant.components.light import ATTR_BRIGHTNESS,ATTR_COLOR_TEMP_KELVIN,ATTR_RGB_COLOR,ATTR_RGBW_COLOR,ColorMode,LightEntity,LightEntityFeature
 from homeassistant.const import STATE_UNKNOWN
 from homeassistant.core import Event,HomeAssistant,callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -20,16 +20,18 @@ from homeassistant.helpers.event import async_track_time_interval
 from TISControlProtocol.api import TISApi
 from TISControlProtocol.BytesHelper import int_to_8_bit_binary
 from TISControlProtocol.Protocols.udp.ProtocolHandler import TISPacket,TISProtocolHandler
-from.const import POLLING_INTERVAL
 from.import TISConfigEntry
+from.const import POLLING_INTERVAL
 handler=TISProtocolHandler()
 async def async_setup_entry(hass,entry,async_add_devices):
-    F=alpha__("Z2F0ZXdheQ==");E=alpha__("aXNfcHJvdGVjdGVk");D=alpha__("ZGV2aWNlX2lk");C=async_add_devices;B=alpha__("Y2hhbm5lbHM=");A=entry.runtime_data.api;G=await A.get_entities(platform=alpha__("ZGltbWVy"))
-    if G:J=[(C,next(iter(A[B][0].values())),A[D],A[E],A[F])for A in G for(C,A)in A.items()];K=[TISLight(tis_api=A,light_name=B,device_id=D,channel_number=C,gateway=E)for(B,C,D,F,E)in J];C(K)
-    H=await A.get_entities(platform=alpha__("cmdi"))
-    if H:L=[(C,next(iter(A[B][0].values())),next(iter(A[B][1].values())),next(iter(A[B][2].values())),A[D],A[E],A[F])for A in H for(C,A)in A.items()];M=[TISRGBLight(tis_api=A,light_name=B,r_channel=C,g_channel=D,b_channel=E,device_id=F,gateway=G)for(B,C,D,E,F,H,G)in L];C(M)
-    I=await A.get_entities(platform=alpha__("cmdidw=="))
-    if I:N=[(C,next(iter(A[B][0].values())),next(iter(A[B][1].values())),next(iter(A[B][2].values())),next(iter(A[B][3].values())),A[D],A[E],A[F])for A in I for(C,A)in A.items()];O=[TISRGBWLight(tis_api=A,light_name=B,r_channel=C,g_channel=D,b_channel=E,w_channel=F,device_id=G,gateway=H)for(B,C,D,E,F,G,I,H)in N];C(O)
+    F=alpha__("Z2F0ZXdheQ==");E=alpha__("aXNfcHJvdGVjdGVk");D=alpha__("ZGV2aWNlX2lk");C=async_add_devices;A=alpha__("Y2hhbm5lbHM=");B=entry.runtime_data.api;G=await B.get_entities(platform=alpha__("ZGltbWVy"))
+    if G:K=[(C,next(iter(B[A][0].values())),B[D],B[E],B[F])for B in G for(C,B)in B.items()];L=[TISLight(tis_api=B,light_name=A,device_id=D,channel_number=C,gateway=E)for(A,C,D,F,E)in K];C(L)
+    H=await B.get_entities(platform=alpha__("cmdi"))
+    if H:M=[(C,next(iter(B[A][0].values())),next(iter(B[A][1].values())),next(iter(B[A][2].values())),B[D],B[E],B[F])for B in H for(C,B)in B.items()];N=[TISRGBLight(tis_api=B,light_name=A,r_channel=C,g_channel=D,b_channel=E,device_id=F,gateway=G)for(A,C,D,E,F,H,G)in M];C(N)
+    I=await B.get_entities(platform=alpha__("cmdidw=="))
+    if I:O=[(C,next(iter(B[A][0].values())),next(iter(B[A][1].values())),next(iter(B[A][2].values())),next(iter(B[A][3].values())),B[D],B[E],B[F])for B in I for(C,B)in B.items()];P=[TISRGBWLight(tis_api=B,light_name=A,r_channel=C,g_channel=D,b_channel=E,w_channel=F,device_id=G,gateway=H)for(A,C,D,E,F,G,I,H)in O];C(P)
+    J=await B.get_entities(platform=alpha__("ZGFsaQ=="))
+    if J:Q=[(C,next(iter(B[A][0].values())),next(iter(B[A][1].values())),B[D],B[E],B[F])for B in J for(C,B)in B.items()];R=[TISDaliLight(tis_api=B,light_name=A,brightness_channel=C,temperature_channel=D,device_id=E,gateway=F)for(A,C,D,E,G,F)in Q];C(R)
 class TISLight(LightEntity):
     def __init__(A,tis_api,gateway,light_name,channel_number,device_id):A.api=tis_api;A.gateway=gateway;A.device_id=device_id;A.channel_number=int(channel_number);A._attr_name=light_name;A._attr_state=_A;A._attr_brightness=_A;A.listener=_A;A.broadcast_channel=255;A._attr_unique_id=beta__("e19fdmFyMH1fe19fdmFyMX0=", __var0=A.name, __var1=A.channel_number);A._update_task_unsub=_A;A.setup_light()
     def setup_light(A):A._attr_supported_color_modes={ColorMode.BRIGHTNESS};A._attr_color_mode=ColorMode.BRIGHTNESS;A._attr_supported_features=LightEntityFeature.TRANSITION;A.update_packet=handler.generate_control_update_packet(A)
@@ -166,3 +168,54 @@ class TISRGBWLight(LightEntity):
         except KeyError as I:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0=", __var0=I))
         A.async_write_ha_state()
     async def async_turn_off(A,**F):B,C,D,E=A.generate_rgbw_packets(A,(0,0,0,0));await A.api.protocol.sender.send_packet(B);await A.api.protocol.sender.send_packet(C);await A.api.protocol.sender.send_packet(D);await A.api.protocol.sender.send_packet(E);A._attr_state=_E;A._attr_rgbw_color=0,0,0,0;A.async_write_ha_state()
+class TISDaliLight(LightEntity):
+    def __init__(A,tis_api,gateway,light_name,brightness_channel,temperature_channel,device_id):A.api=tis_api;A.gateway=gateway;A.device_id=device_id;A.brightness_channel=int(brightness_channel);A.temperature_channel=int(temperature_channel);A._attr_name=light_name;A._attr_state=_A;A._attr_brightness=_A;A._attr_color_temp_kelvin=_A;A.listener=_A;A._attr_unique_id=beta__("e19fdmFyMH1fe19fdmFyMX1fe19fdmFyMn0=", __var0=A.name, __var1=A.brightness_channel, __var2=A.temperature_channel);A.default_temperature=4000;A.setup_light()
+    def setup_light(A):A._attr_supported_color_modes={ColorMode.COLOR_TEMP};A._attr_color_mode=ColorMode.COLOR_TEMP;A._attr_supported_features=LightEntityFeature.TRANSITION;A.generate_dali_packets=getattr(handler,alpha__("Z2VuZXJhdGVfZGFsaV9saWdodF9jb250cm9sX3BhY2tldA=="),_A);A.update_packet=handler.generate_control_update_packet(A)
+    async def async_added_to_hass(A):
+        @callback
+        async def B(event):
+            B=event
+            if B.event_type==str(A.device_id):
+                if B.data[_B]==_F:C=B.data[_C];F=C[A.temperature_channel];D=C[A.brightness_channel];A._attr_brightness=int(D/100*255);E=2700;G=6500;A._attr_color_temp_kelvin=int(E+F/100*(G-E));A._attr_state=bool(D>0)
+                elif B.data[_B]==_G:A._attr_state=STATE_UNKNOWN
+        A.listener=A.hass.bus.async_listen(str(A.device_id),B)
+        for C in range(5):
+            if A._attr_state is _A:D=await A.api.protocol.sender.send_packet(A.update_packet)
+        if A._attr_state is _A:A._attr_state=STATE_UNKNOWN
+    @property
+    def brightness(self):return self._attr_brightness
+    @property
+    def color_mode(self):return self._attr_color_mode
+    @property
+    def color_temp_kelvin(self):return self._attr_color_temp_kelvin
+    @property
+    def min_color_temp_kelvin(self):return 2700
+    @property
+    def max_color_temp_kelvin(self):return 6500
+    @property
+    def supported_color_modes(self):return self._attr_supported_color_modes
+    @property
+    def supported_features(self):return self._attr_supported_features
+    @property
+    def is_on(self):return bool(self._attr_state)
+    @property
+    def name(self):return self._attr_name
+    async def async_turn_on(A,**E):
+        try:
+            B=E.get(ATTR_COLOR_TEMP_KELVIN,_A);C=E.get(ATTR_BRIGHTNESS,_A)
+            if C is _A:
+                if A._attr_brightness is not _A and A._attr_brightness>0:C=A._attr_brightness
+                else:C=255
+            if B is _A:
+                if A._attr_color_temp_kelvin is not _A:B=A._attr_color_temp_kelvin
+                else:B=A.default_temperature
+            F=2700;G=6500;D=int((B-F)/(G-F)*100);D=max(0,min(100,D));H=int(C/255*100)
+            if A.generate_dali_packets:I,J=A.generate_dali_packets(A,H,D);await A.api.protocol.sender.send_packet(I);await A.api.protocol.sender.send_packet(J)
+            A._attr_state=_D;A._attr_brightness=C;A._attr_color_temp_kelvin=B
+        except Exception as K:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0=", __var0=K))
+        A.async_write_ha_state()
+    async def async_turn_off(A,**G):
+        B=0
+        if A._attr_color_temp_kelvin is not _A:C=2700;D=6500;B=int((A._attr_color_temp_kelvin-C)/(D-C)*100);B=max(0,min(100,B))
+        if A.generate_dali_packets:E,F=A.generate_dali_packets(A,0,B);await A.api.protocol.sender.send_packet(E);await A.api.protocol.sender.send_packet(F)
+        A._attr_state=_E;A._attr_brightness=0;A.async_write_ha_state()
