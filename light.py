@@ -31,7 +31,7 @@ async def async_setup_entry(hass,entry,async_add_devices):
     I=await B.get_entities(platform=alpha__("cmdidw=="))
     if I:O=[(C,next(iter(B[A][0].values())),next(iter(B[A][1].values())),next(iter(B[A][2].values())),next(iter(B[A][3].values())),B[D],B[E],B[F])for B in I for(C,B)in B.items()];P=[TISRGBWLight(tis_api=B,light_name=A,r_channel=C,g_channel=D,b_channel=E,w_channel=F,device_id=G,gateway=H)for(A,C,D,E,F,G,I,H)in O];C(P)
     J=await B.get_entities(platform=alpha__("ZGFsaQ=="))
-    if J:Q=[(C,next(iter(B[A][0].values())),next(iter(B[A][1].values())),B[D],B[E],B[F])for B in J for(C,B)in B.items()];R=[TISDaliLight(tis_api=B,light_name=A,brightness_channel=C,temperature_channel=D,device_id=E,gateway=F)for(A,C,D,E,G,F)in Q];C(R)
+    if J:Q=[(C,next(iter(B[A][0].values())),next(iter(B[A][1].values())),B[D],B[E],B[F])for B in J for(C,B)in B.items()];R=[TISDaliLight(tis_api=B,light_name=C,brightness_channel=A,temperature_channel=A+100,device_id=D,gateway=E)for(C,A,D,F,E)in Q];C(R)
 class TISLight(LightEntity):
     def __init__(A,tis_api,gateway,light_name,channel_number,device_id):A.api=tis_api;A.gateway=gateway;A.device_id=device_id;A.channel_number=int(channel_number);A._attr_name=light_name;A._attr_state=_A;A._attr_brightness=_A;A.listener=_A;A.broadcast_channel=255;A._attr_unique_id=beta__("e19fdmFyMH1fe19fdmFyMX0=", __var0=A.name, __var1=A.channel_number);A._update_task_unsub=_A;A.setup_light()
     def setup_light(A):A._attr_supported_color_modes={ColorMode.BRIGHTNESS};A._attr_color_mode=ColorMode.BRIGHTNESS;A._attr_supported_features=LightEntityFeature.TRANSITION;A.update_packet=handler.generate_control_update_packet(A)
