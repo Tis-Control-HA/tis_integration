@@ -29,7 +29,7 @@ class TISCPUFan(FanEntity):
         if B&FanEntityFeature.DIRECTION:A._direction=alpha__("Zm9yd2FyZA==")
         if A._attr_available:A.setup_gpio()
     def setup_gpio(A):
-        try:GPIO.setmode(GPIO.BCM);GPIO.setup(A._pin,GPIO.OUT);A._pwm=GPIO.PWM(A._pin,100);A._pwm.start(0);A._state=_A
+        try:GPIO.setwarnings(_A);GPIO.setmode(GPIO.BCM);GPIO.setup(A._pin,GPIO.OUT);A._pwm=GPIO.PWM(A._pin,100);A._pwm.start(0);A._state=_A
         except Exception as B:_LOGGER.error(alpha__("RmFpbGVkIHRvIGluaXRpYWxpemUgR1BJTyBQV006ICVz"),B);A._attr_available=_A
     async def async_added_to_hass(A):
         @callback
