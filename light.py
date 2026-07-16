@@ -109,7 +109,7 @@ class TISRGBLight(LightEntity):
                 elif C.data[_B]==_G:A._attr_state=STATE_UNKNOWN
         A.listener=A.hass.bus.async_listen(str(A.device_id),B)
         for C in range(5):
-            if A._attr_rgb_color is _A:D=await A.api.protocol.sender.send_packet(A.update_packet)
+            if A._attr_rgb_color is _A:await A.api.protocol.sender.send_packet(A.update_packet)
         if A._attr_rgb_color is _A:A._attr_state=STATE_UNKNOWN;A._attr_rgb_color=0,0,0
     @property
     def color_mode(self):return self._attr_color_mode
@@ -144,7 +144,7 @@ class TISRGBWLight(LightEntity):
                 elif B.data[_B]==_G:A._attr_state=STATE_UNKNOWN
         A.listener=A.hass.bus.async_listen(str(A.device_id),B)
         for C in range(5):
-            if A._attr_rgbw_color is _A:D=await A.api.protocol.sender.send_packet(A.update_packet)
+            if A._attr_rgbw_color is _A:await A.api.protocol.sender.send_packet(A.update_packet)
         if A._attr_rgbw_color is _A:A._attr_state=STATE_UNKNOWN;A._attr_rgbw_color=0,0,0,0
     @property
     def brightness(self):return self._attr_brightness
@@ -180,7 +180,7 @@ class TISDaliLight(LightEntity):
                 elif B.data[_B]==_G:A._attr_state=STATE_UNKNOWN
         A.listener=A.hass.bus.async_listen(str(A.device_id),B)
         for C in range(5):
-            if A._attr_state is _A:D=await A.api.protocol.sender.send_packet(A.update_packet)
+            if A._attr_state is _A:await A.api.protocol.sender.send_packet(A.update_packet)
         if A._attr_state is _A:A._attr_state=STATE_UNKNOWN
     @property
     def brightness(self):return self._attr_brightness
@@ -210,12 +210,18 @@ class TISDaliLight(LightEntity):
                 if A._attr_color_temp_kelvin is not _A:B=A._attr_color_temp_kelvin
                 else:B=A.default_temperature
             F=2700;G=6500;D=int((B-F)/(G-F)*100);D=max(0,min(100,D));H=int(C/255*100)
-            if A.generate_dali_packets:I,J=A.generate_dali_packets(A,H,D);await A.api.protocol.sender.send_packet(I);await A.api.protocol.sender.send_packet(J)
-            A._attr_state=_D;A._attr_brightness=C;A._attr_color_temp_kelvin=B
-        except Exception as K:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0=", __var0=K))
+            if A.generate_dali_packets:
+                I,J=A.generate_dali_packets(A,H,D);K=await A.api.protocol.sender.send_packet_with_ack(I);L=await A.api.protocol.sender.send_packet_with_ack(J)
+                if not K or not L:logging.warning(beta__("Tm8gQUNLIHJlY2VpdmVkIGZvciB0dXJuaW5nIG9uIGxpZ2h0IHtfX3ZhcjB9LiBEZXZpY2UgbWF5IGJlIG9mZmxpbmUu", __var0=A.name))
+        except Exception as M:logging.error(beta__("ZXJyb3IgdHVybmluZyBvbiBsaWdodDoge19fdmFyMH0=", __var0=M))
         A.async_write_ha_state()
-    async def async_turn_off(A,**G):
-        B=0
-        if A._attr_color_temp_kelvin is not _A:C=2700;D=6500;B=int((A._attr_color_temp_kelvin-C)/(D-C)*100);B=max(0,min(100,B))
-        if A.generate_dali_packets:E,F=A.generate_dali_packets(A,0,B);await A.api.protocol.sender.send_packet(E);await A.api.protocol.sender.send_packet(F)
-        A._attr_state=_E;A._attr_brightness=0;A.async_write_ha_state()
+    async def async_turn_off(A,**J):
+        try:
+            B=0
+            if A._attr_color_temp_kelvin is not _A:C=2700;D=6500;B=int((A._attr_color_temp_kelvin-C)/(D-C)*100)
+            B=max(0,min(100,B))
+            if A.generate_dali_packets:
+                E,F=A.generate_dali_packets(A,0,B);G=await A.api.protocol.sender.send_packet_with_ack(E);H=await A.api.protocol.sender.send_packet_with_ack(F)
+                if not G or not H:logging.warning(beta__("Tm8gQUNLIHJlY2VpdmVkIGZvciB0dXJuaW5nIG9mZiBsaWdodCB7X192YXIwfS4gRGV2aWNlIG1heSBiZSBvZmZsaW5lLg==", __var0=A.name))
+        except Exception as I:logging.error(beta__("ZXJyb3IgdHVybmluZyBvZmYgbGlnaHQ6IHtfX3ZhcjB9", __var0=I))
+        A.async_write_ha_state()
