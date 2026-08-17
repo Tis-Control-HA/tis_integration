@@ -13,6 +13,17 @@ from homeassistant.components.climate import (
     HVACMode,
     UnitOfTemperature,
 )
+from homeassistant.components.sensor import (
+    SensorEntityDescription,
+    SensorDeviceClass,
+    SensorStateClass,
+)
+from homeassistant.const import (
+    UnitOfSpeed,
+    UnitOfLength,
+    LIGHT_LUX,
+    PERCENTAGE,
+)
 
 DOMAIN = "tis_control"
 
@@ -117,6 +128,62 @@ HEALTH_SENSOR_TYPES = {
     "lux": "Lux Sensor",
     "temp": "Temperature Sensor",
 }
+
+WEATHER_SENSOR_TYPES: tuple[SensorEntityDescription, ...] = (
+    SensorEntityDescription(
+        key="wind",
+        name="Wind Direction",
+        icon="mdi:compass",
+    ),
+    SensorEntityDescription(
+        key="temperature",
+        name="Temperature",
+        device_class=SensorDeviceClass.TEMPERATURE,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+    ),
+    SensorEntityDescription(
+        key="humidity",
+        name="Humidity",
+        device_class=SensorDeviceClass.HUMIDITY,
+        native_unit_of_measurement=PERCENTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
+    ),
+    SensorEntityDescription(
+        key="wind_speed",
+        name="Wind Speed",
+        device_class=SensorDeviceClass.WIND_SPEED,
+        native_unit_of_measurement=UnitOfSpeed.METERS_PER_SECOND,
+        state_class=SensorStateClass.MEASUREMENT,
+    ),
+    SensorEntityDescription(
+        key="gust_speed",
+        name="Gust Speed",
+        device_class=SensorDeviceClass.WIND_SPEED,
+        native_unit_of_measurement=UnitOfSpeed.METERS_PER_SECOND,
+        state_class=SensorStateClass.MEASUREMENT,
+    ),
+    SensorEntityDescription(
+        key="rainfall",
+        name="Rainfall",
+        device_class=SensorDeviceClass.PRECIPITATION,
+        native_unit_of_measurement=UnitOfLength.MILLIMETERS,
+        state_class=SensorStateClass.MEASUREMENT,
+    ),
+    SensorEntityDescription(
+        key="lighting",
+        name="Lighting",
+        device_class=SensorDeviceClass.ILLUMINANCE,
+        native_unit_of_measurement=LIGHT_LUX,
+        state_class=SensorStateClass.MEASUREMENT,
+    ),
+    SensorEntityDescription(
+        key="uv",
+        name="UV",
+        icon="mdi:weather-sunny",
+        state_class=SensorStateClass.MEASUREMENT,
+    ),
+)
 
 # for eco2,tvoc,co states >>  0: Not Ready, 1: Excellent, 2: Normal, 3: Low Risk, 4: Med Risk, 5: High Risk
 HEALTH_STATES = {
